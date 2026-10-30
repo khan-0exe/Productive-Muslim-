@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductiveMuslim — Aesthetic Habit, Namaz & Self-Accountability Dashboard</title>
+    <meta name="description" content="Set your daily schedule, manage studies, record your prayers with alerts, and track self-accountability (Ahtisaab) to filter out bad habits. Highly animated, spiritual, and productive dashboard.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="styleee.css">
+    
+</head>
+<body>
+
+    <!-- Animated Breathing Background Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo" style="gap: 12px;">
+                    <svg viewBox="0 0 24 24" class="logo-icon" style="width:32px; height:32px; fill:none; stroke:var(--text-gold); stroke-width:1.5;">
+                        <!-- Crescent moon -->
+                        <path d="M11 3a8.5 8.5 0 1 0 9.5 9.5A9.2 9.2 0 0 1 11 3z" fill="var(--text-gold)" />
+                        <!-- Tiny Star -->
+                        <polygon points="18,5 19,7 21,7 19.5,8.5 20,10.5 18,9.5 16,10.5 16.5,8.5 15,7 17,7" fill="var(--emerald)" stroke="var(--emerald)" stroke-width="0.5"/>
+                    </svg>
+                    <span style="font-family:var(--font-heading); font-weight:800; font-size:1.35rem; background:linear-gradient(135deg, white, var(--text-gold)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">ProductiveMuslim</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="dashboard" id="nav-btn-dashboard" aria-label="Open Dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-btn" data-tab="namaz" id="nav-btn-namaz" aria-label="Open Namaz Planner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Namaz & Alarms</span>
+                </button>
+                <button class="nav-btn" data-tab="schedule" id="nav-btn-schedule" aria-label="Open Course Schedule">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Studies & Courses</span>
+                </button>
+                <button class="nav-btn" data-tab="ahtisaab" id="nav-btn-ahtisaab" aria-label="Open Self Accountability">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Ahtisaab Portal</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="islamic-date-indicator">
+                    <div class="hijri-label" id="hijri-date-val">15 Muharram 1448 AH</div>
+                    <div class="gregorian-label" id="gregorian-date-val">July 5, 2026</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            
+            <!-- TOP HEADER BAR -->
+            <header class="top-bar">
+                <div class="header-welcome">
+                    <h2>السلام عليكم</h2>
+                    <p class="motto-text">"Verily, with hardship comes ease." (94:5)</p>
+                </div>
+                <div class="header-actions">
+                    <div class="notification-lock" id="notification-prompt-banner">
+                        <button class="btn btn-secondary btn-icon-text" id="btn-request-notifications" aria-label="Enable Reminders">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span>Enable Alarms</span>
+                        </button>
+                    </div>
+                    <div class="realtime-clock" id="digital-clock" aria-live="polite">00:00:00 PM</div>
+                </div>
+            </header>
+
+            <!-- SLIDER INTRO CARD (Hadith & Ayah of the Day) -->
+            <section class="inspiration-banner-card" id="inspiration-card">
+                <div class="inspiration-badge">Inspiration of the Day</div>
+                <div class="inspiration-content" id="inspiration-slider">
+                    <blockquote class="inspiration-quote" id="inspiration-quote-text">
+                        "Allah does not burden a soul beyond that it can bear."
+                    </blockquote>
+                    <cite class="inspiration-source" id="inspiration-quote-source">Surah Al-Baqarah 2:286</cite>
+                </div>
+                <button class="slider-next" id="btn-next-inspiration" aria-label="Next Verse">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </section>
+
+            <!-- TABS WRAPPER -->
+            <div class="tab-contents-container">
+
+                <!-- 1. DASHBOARD VIEW -->
+                <div class="tab-pane active" id="tab-dashboard" data-tab-name="dashboard">
+                    
+                    <!-- Top Focus Section: Morning Resolutions -->
+                    <div class="grid-columns-2 margin-bottom">
+                        
+                        <!-- MORNING INTEGRATION: GUNNAH TO MINUS TODAY -->
+                        <div class="glass-card active-reflection-focus">
+                            <div class="card-header">
+                                <h3 class="card-title text-gold flex-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="margin-right"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                    Morning Focus: Sins to Subtract (Minus) Today
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-subtitle">Set the habit, sin, or negative trigger you pledge to actively subtract from your life today.</p>
+                                
+                                <div id="morning-focus-entry-area">
+                                    <div class="sin-presets-container" id="sin-presets">
+                                        <button class="preset-badge" data-sin="Backbiting / Gheebat">Backbiting (غیبت)</button>
+                                        <button class="preset-badge" data-sin="Lying / Jhoot">Lying (جھوٹ)</button>
+                                        <button class="preset-badge" data-sin="Wasting Study Time">Wasting Study Time</button>
+                                        <button class="preset-badge" data-sin="Wasting Hours on Social Media">Social Media Doomscrolling</button>
+                                        <button class="preset-badge" data-sin="Anger / Bad Temper">Anger (غصہ)</button>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-custom-sin-focus" placeholder="Enter target sin or custom bad habit to avoid..." aria-label="Target Sin Input">
+                                        <button class="btn btn-primary" id="btn-save-morning-focus">Set Resolution</button>
+                                    </div>
+                                </div>
+
+                                <div id="morning-focus-active-area" class="hidden">
+                                    <div class="active-resolution-banner">
+                                        <div class="banner-badge">PLEDGED FOR TODAY</div>
+                                        <div class="banner-content">
+                                            <h4 id="active-sin-name">Avoiding Screen Waste</h4>
+                                            <p class="urdu-motto">"العبد يخطئ والتائب يتوب"</p>
+                                        </div>
+                                        <div class="banner-actions">
+                                            <button class="btn btn-secondary-danger btn-sm" id="btn-reset-resolution">Change Focus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- QUICK STATS BOARD -->
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Daily Progress Hub</h3>
+                            </div>
+                            <div class="card-body grid-columns-3 text-center">
+                                <div class="progress-indicator-circle">
+                                    <div class="circular-progress-svg-wrapper">
+                                        <svg class="progress-ring" width="80" height="80">
+                                            <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                            <circle class="progress-ring-bar" id="ring-namaz-bar" stroke="var(--emerald)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                        </svg>
+                                        <div id="text-namaz-score" class="ring-percentage">0/5</div>
+                                    </div>
+                                    <div class="metric-title">Namaz</div>
+                                </div>
+
+                                <div class="progress-indicator-circle">
+                                    <div class="circular-progress-svg-wrapper">
+                                        <svg class="progress-ring" width="80" height="80">
+                                            <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                            <circle class="progress-ring-bar" id="ring-study-bar" stroke="var(--gold)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                        </svg>
+                                        <div id="text-study-score" class="ring-percentage">0%</div>
+                                    </div>
+                                    <div class="metric-title">Studies</div>
+                                </div>
+
+                                <div class="progress-indicator-circle">
+                                    <div class="circular-progress-svg-wrapper">
+                                        <svg class="progress-ring" width="80" height="80">
+                                            <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                            <circle class="progress-ring-bar" id="ring-routine-bar" stroke="var(--teal)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                        </svg>
+                                        <div id="text-routine-score" class="ring-percentage">0%</div>
+                                    </div>
+                                    <div class="metric-title">Routine</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Lower Section: Next Prayer Countdown & Rapid Tasks -->
+                    <div class="grid-columns-3-2">
+                        
+                        <!-- NEXT PRAYER COUNTDOWN CARD -->
+                        <div class="glass-card center-card flex-column flex-center text-center header-gradient">
+                            <span class="subtle-badge-gold">UPCOMING ADHAN</span>
+                            <h3 id="next-prayer-name" class="heavy-title">Dhuhr</h3>
+                            <div class="timer-countdown" id="next-prayer-timer">02:15:40</div>
+                            <span class="timer-label" id="next-prayer-timing-label">Begins at 01:15 PM</span>
+                            <div class="action-row margin-top">
+                                <button class="btn btn-primary" id="btn-quick-play-chime">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="margin-right"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                                    Test Spiritual Alarm Tone
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- TODAYS QUICK TASK BOOSTER -->
+                        <div class="glass-card">
+                            <div class="card-header flex-space">
+                                <h3 class="card-title">Daily Routine Items</h3>
+                                <button class="btn btn-secondary-action btn-sm" id="btn-add-routine-modal" aria-label="Add Routine Task">+ Add Task</button>
+                            </div>
+                            <div class="card-body">
+                                <ul class="checklist-list" id="dashboard-routine-list">
+                                    <!-- Dynamic Routine Items JS -->
+                                    <li class="checklist-item finished">
+                                        <input type="checkbox" checked id="def-item-1">
+                                        <label for="def-item-1">Morning Dhikr (اذکار صبح)</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- 2. NAMAZ TRACKER & ALARMS VIEW -->
+                <div class="tab-pane" id="tab-namaz" data-tab-name="namaz">
+                    <div class="tab-pane-header">
+                        <h2>Namaz Trackers & customizable alerts</h2>
+                        <p>Configure your local timetable, mark offered prayers on time, and manage notification alarms.</p>
+                    </div>
+
+                    <div class="prayer-times-grid" id="prayer-cards-container">
+                        <!-- Fajr Card -->
+                        <div class="prayer-card fajr" data-prayer="fajr">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Fajr (فجر)</span>
+                                <input type="time" class="prayer-time-input" id="time-fajr" value="04:30" aria-label="Fajr time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-fajr" aria-label="Mark Fajr Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-fajr">
+                                        <input type="checkbox" id="alarm-switch-fajr" checked class="alarm-trigger" aria-label="Fajr Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dhuhr Card -->
+                        <div class="prayer-card dhuhr" data-prayer="dhuhr">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Dhuhr (ظہر)</span>
+                                <input type="time" class="prayer-time-input" id="time-dhuhr" value="13:15" aria-label="Dhuhr time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-dhuhr" aria-label="Mark Dhuhr Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-dhuhr">
+                                        <input type="checkbox" id="alarm-switch-dhuhr" checked class="alarm-trigger" aria-label="Dhuhr Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Asr Card -->
+                        <div class="prayer-card asr" data-prayer="asr">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Asr (عصر)</span>
+                                <input type="time" class="prayer-time-input" id="time-asr" value="17:00" aria-label="Asr time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-asr" aria-label="Mark Asr Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-asr">
+                                        <input type="checkbox" id="alarm-switch-asr" checked class="alarm-trigger" aria-label="Asr Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Maghrib Card -->
+                        <div class="prayer-card maghrib" data-prayer="maghrib">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Maghrib (مغرب)</span>
+                                <input type="time" class="prayer-time-input" id="time-maghrib" value="19:25" aria-label="Maghrib time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-maghrib" aria-label="Mark Maghrib Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-maghrib">
+                                        <input type="checkbox" id="alarm-switch-maghrib" checked class="alarm-trigger" aria-label="Maghrib Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Isha Card -->
+                        <div class="prayer-card isha" data-prayer="isha">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Isha (عشاء)</span>
+                                <input type="time" class="prayer-time-input" id="time-isha" value="20:55" aria-label="Isha time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-isha" aria-label="Mark Isha Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-isha">
+                                        <input type="checkbox" id="alarm-switch-isha" checked class="alarm-trigger" aria-label="Isha Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tahajjud Card -->
+                        <div class="prayer-card tahajjud" data-prayer="tahajjud">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Tahajjud (تہجد)</span>
+                                <input type="time" class="prayer-time-input" id="time-tahajjud" value="03:15" aria-label="Tahajjud time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-tahajjud" aria-label="Mark Tahajjud Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-tahajjud">
+                                        <input type="checkbox" id="alarm-switch-tahajjud" class="alarm-trigger" aria-label="Tahajjud Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. STUDIES & COURSE SCHEDULER VIEW -->
+                <div class="tab-pane" id="tab-schedule" data-tab-name="schedule">
+                    <div class="tab-pane-header">
+                        <h2>Studies &amp; Course Scheduler</h2>
+                        <p>Set up your Courses (e.g. DIT), define different Subjects, schedule weekly time slots on specific days, and toggle alerts.</p>
+                    </div>
+
+                    <div class="studies-layout">
+
+                        <!-- LEFT PANEL: COURSES & SUBJECTS -->
+                        <div style="display:flex; flex-direction:column; gap:20px;">
+                            
+                            <!-- 1. COURSES LIBRARY -->
+                            <div class="glass-card">
+                                <div class="card-header flex-space">
+                                    <h3 class="card-title">&#127891; My Courses</h3>
+                                    <span style="font-size:0.75rem;color:var(--text-muted);" id="courses-count-label">0 courses</span>
+                                </div>
+                                <div class="subject-library-list" id="courses-library-list" style="max-height: 180px;">
+                                    <p class="empty-state-msg" id="empty-courses-msg">No courses added. Set up a course like DIT below!</p>
+                                </div>
+                                <div class="add-subject-form">
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-course-name" placeholder="Course name (e.g., DIT)..." aria-label="Course name" maxlength="40">
+                                    </div>
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-course-desc" placeholder="Details (e.g., Diploma in IT)" aria-label="Course description" maxlength="50">
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-add-new-course" style="width:100%">+ Add Course</button>
+                                </div>
+                            </div>
+
+                            <!-- 2. SUBJECTS LIBRARY -->
+                            <div class="glass-card">
+                                <div class="card-header flex-space">
+                                    <h3 class="card-title">&#128218; My Subjects</h3>
+                                    <span style="font-size:0.75rem;color:var(--text-muted);" id="subject-count-label">0 subjects</span>
+                                </div>
+                                <div class="subject-library-list" id="subject-library-list" style="max-height: 220px;">
+                                    <p class="empty-state-msg" id="empty-subjects-msg">No subjects yet. Select a course and add subjects!</p>
+                                </div>
+                                <div class="add-subject-form">
+                                    <div class="form-group" style="margin-bottom: 8px;">
+                                        <label for="select-subject-course">Link to Course</label>
+                                        <select id="select-subject-course" style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 8px 12px; color: white; width:100%;">
+                                            <option value="">-- Select Course --</option>
+                                        </select>
+                                    </div>
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-subject-name" placeholder="Subject name (e.g., OOP, HTML)..." aria-label="Subject name" maxlength="40">
+                                    </div>
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-subject-desc" placeholder="Note (e.g., Room 3 or Teacher)" aria-label="Subject note" maxlength="50">
+                                    </div>
+                                    <div class="color-swatches" id="subject-color-swatches" role="group" aria-label="Pick color" style="margin-top: 5px; margin-bottom: 5px;">
+                                        <div class="color-swatch picked" data-color="#5b8dee" style="background:#5b8dee" title="Blue"></div>
+                                        <div class="color-swatch" data-color="#5cb87a" style="background:#5cb87a" title="Green"></div>
+                                        <div class="color-swatch" data-color="#e5a34b" style="background:#e5a34b" title="Amber"></div>
+                                        <div class="color-swatch" data-color="#c97be8" style="background:#c97be8" title="Lavender"></div>
+                                        <div class="color-swatch" data-color="#e86b5f" style="background:#e86b5f" title="Coral"></div>
+                                        <div class="color-swatch" data-color="#50c8d0" style="background:#50c8d0" title="Teal"></div>
+                                        <div class="color-swatch" data-color="#f0a0c0" style="background:#f0a0c0" title="Pink"></div>
+                                        <div class="color-swatch" data-color="#a0c0dc" style="background:#a0c0dc" title="Steel"></div>
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-add-new-subject" style="width:100%;">+ Add Subject</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT PANEL: TIMETABLE & SCHEDULER + POMODORO -->
+                        <div style="display:flex;flex-direction:column;gap:20px;">
+
+                            <!-- TIMETABLE BUILDER -->
+                            <div class="glass-card">
+                                <div class="card-header flex-space">
+                                    <h3 class="card-title">&#128197; Weekly Study Timetable</h3>
+                                    <button class="btn btn-secondary-danger btn-sm" id="btn-clear-study-schedule">Clear All</button>
+                                </div>
+
+                                <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;font-weight:600;letter-spacing:.05em;">1. SELECT SUBJECT TO schedule:</p>
+                                <div class="subject-select-grid" id="subject-select-grid">
+                                    <p class="empty-state-msg" id="empty-subject-pills-msg" style="padding:6px 0;margin:0;">Select a Course and verify its Subjects on the left.</p>
+                                </div>
+
+                                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:14px;margin-bottom:8px;font-weight:600;letter-spacing:.05em;">2. SELECT TARGET STUDY DAY:</p>
+                                <div class="day-swatches-grid" id="schedule-day-swatches" style="display:flex; gap:67x; flex-wrap:wrap; margin-bottom:14px;">
+                                    <button class="preset-badge selected" data-day="Monday">Monday</button>
+                                    <button class="preset-badge" data-day="Tuesday">Tuesday</button>
+                                    <button class="preset-badge" data-day="Wednesday">Wednesday</button>
+                                    <button class="preset-badge" data-day="Thursday">Thursday</button>
+                                    <button class="preset-badge" data-day="Friday">Friday</button>
+                                    <button class="preset-badge" data-day="Saturday">Saturday</button>
+                                    <button class="preset-badge" data-day="Sunday">Sunday</button>
+                                </div>
+
+                                <div class="schedule-time-row" style="margin-top:14px;">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label for="sched-start">Start Time</label>
+                                        <input type="time" id="sched-start" value="14:00" aria-label="Start time">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label for="sched-end">End Time</label>
+                                        <input type="time" id="sched-end" value="15:00" aria-label="End time">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:0; display: flex; align-items: center; gap: 8px;">
+                                        <div style="display:flex; flex-direction:column; align-items:flex-start; margin-right: 10px;">
+                                            <span style="font-size: 0.75rem; font-weight:600; color:var(--text-secondary); text-transform:uppercase;">Study Alarm</span>
+                                            <label class="switch-toggle" for="sched-alarm-active" style="margin-top:6px;">
+                                                <input type="checkbox" id="sched-alarm-active" checked>
+                                                <span class="slider-round"></span>
+                                            </label>
+                                        </div>
+                                        <button class="btn btn-primary" id="btn-add-schedule-block" style="white-space:nowrap; height: 38px;">+ Add Block</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-top:14px;margin-bottom:0;">
+                                    <label for="sched-topic">Topic / Goal for this session</label>
+                                    <input type="text" id="sched-topic" placeholder="e.g., Chapter 5 derivations, Revise OOP…" aria-label="Topic goal">
+                                </div>
+
+                                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:20px;margin-bottom:8px;font-weight:600;letter-spacing:.05em;">3. CHOOSE DISPLAY DAY:</p>
+                                <div class="day-filter-tabs" id="day-filter-tabs" style="display:flex; gap:6px; flex-wrap:wrap; border-bottom:1px solid var(--border-glass); padding-bottom:10px; margin-bottom:14px;">
+                                    <button class="btn btn-secondary btn-sm active" data-filter="All">All Days</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Monday">Mon</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Tuesday">Tue</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Wednesday">Wed</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Thursday">Thu</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Friday">Fri</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Saturday">Sat</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Sunday">Sun</button>
+                                </div>
+
+                                <div class="schedule-agenda-container" id="schedule-agenda-container">
+                                    <p class="empty-state-msg" id="empty-schedule-msg">No blocks yet. Pick a course, subject, day/time, and add a study block.</p>
+                                </div>
+                            </div>
+
+                            <!-- POMODORO (compact) -->
+                            <div class="glass-card pomodoro-focus-card">
+                                <div class="card-header flex-center">
+                                    <h3 class="card-title text-gold">&#9203; Focus Station (Pomodoro)</h3>
+                                </div>
+                                <div class="card-body flex-column flex-center text-center">
+                                    <div class="pomodoro-timer-ring">
+                                        <svg class="timer-spinner" width="180" height="180">
+                                            <circle class="spinner-bg" stroke="rgba(255,255,255,0.06)" stroke-width="8" fill="transparent" r="80" cx="90" cy="90"/>
+                                            <circle class="spinner-bar" id="pomodoro-progress-bar" stroke="var(--gold)" stroke-dasharray="502" stroke-dashoffset="0" stroke-width="8" fill="transparent" r="80" cx="90" cy="90"/>
+                                        </svg>
+                                        <div class="pomodoro-numbers" id="pomodoro-display">25:00</div>
+                                    </div>
+                                    <div class="pomodoro-controls">
+                                        <button class="btn btn-secondary-action" id="btn-pomo-start">Start</button>
+                                        <button class="btn btn-secondary" id="btn-pomo-pause">Pause</button>
+                                        <button class="btn btn-secondary-danger" id="btn-pomo-reset">Reset</button>
+                                    </div>
+                                    <div class="timer-mode-selection">
+                                        <button class="active" data-duration="25" id="pomo-mode-study">Study (25m)</button>
+                                        <button data-duration="5" id="pomo-mode-break">Short Break (5m)</button>
+                                        <button data-duration="15" id="pomo-mode-long">Long Break (15m)</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div><!-- end right panel -->
+                    </div><!-- end studies-layout -->
+                </div><!-- end tab-schedule -->
+
+                <!-- 4. AHTISAAB (SELF-ACCOUNTABILITY) VIEW -->
+                <div class="tab-pane" id="tab-ahtisaab" data-tab-name="ahtisaab">
+                    <div class="tab-pane-header">
+                        <h2>Personal Ahtisaab &amp; Introspection Portal (احتساب پورٹل)</h2>
+                        <p>Set a daily morning resolution to avoid a specific bad habit, and audit your good &amp; bad deeds tonight.</p>
+                    </div>
+                    <div class="grid-columns-3-2 align-start">
+                        
+                        <!-- AHTISAAB LOGGING DIALOG CARD -->
+                        <div class="glass-card reflection-card">
+                            
+                            <!-- 1. MORNING TARGET SETTING & ACTIVE RESOLUTION DISPLAY -->
+                            <div class="card-header" style="border-bottom: 1px solid var(--border-glass); padding-bottom:12px; margin-bottom:16px;">
+                                <h3 class="card-title text-gold">&#9788; Morning Focus: Sin Prevention Pledge</h3>
+                            </div>
+                            <div class="card-body" style="margin-bottom: 24px;">
+                                <div id="ahtisaab-morning-entry-area">
+                                    <p class="card-subtitle" style="margin-bottom: 10px;">Select or write a target sin/bad habit you pledge to avoid today (will sync with Dashboard):</p>
+                                    <div class="sin-presets-container" id="ahtisaab-sin-presets" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                                        <button class="preset-badge" data-sin="Backbiting / Gheebat">Backbiting (غیبت)</button>
+                                        <button class="preset-badge" data-sin="Lying / Jhoot">Lying (جھوٹ)</button>
+                                        <button class="preset-badge" data-sin="Wasting Study Time">Wasting Study Time</button>
+                                        <button class="preset-badge" data-sin="Social Media Doomscrolling">Social Media Doomscrolling</button>
+                                        <button class="preset-badge" data-sin="Anger / Bad Temper">Anger (غصہ)</button>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-ahtisaab-custom-sin-focus" placeholder="Enter custom target sin..." aria-label="Target Sin Input">
+                                        <button class="btn btn-primary" id="btn-save-ahtisaab-morning-focus">Set Resolution</button>
+                                    </div>
+                                </div>
+                                <div id="ahtisaab-morning-active-area" class="hidden">
+                                    <div class="active-resolution-banner" style="background: linear-gradient(135deg, rgba(82, 0, 0, 0.25) 0%, rgba(18, 15, 24, 0.4) 100%); border: 1px solid rgba(255, 50, 50, 0.25); border-radius: var(--radius-md); padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <span class="banner-badge" style="font-size:0.65rem; font-weight:800; color:var(--red-danger); background:var(--red-glow); padding:2px 8px; border-radius:4px;">ACTIVE RESOLUTION</span>
+                                            <h4 id="ahtisaab-active-sin-name" style="margin-top:6px; font-size:1.1rem; color:white;">Avoiding Screen Waste</h4>
+                                        </div>
+                                        <button class="btn btn-secondary-danger btn-sm" id="btn-reset-ahtisaab-resolution">Change Focus</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. NIGHT TIME AUDITIVE AUDIT -->
+                            <div class="card-header" style="border-top:1px solid var(--border-glass); border-bottom:1px solid var(--border-glass); padding: 16px 0 12px 0; margin-bottom:16px;">
+                                <h3 class="card-title text-emerald">&#9790; Night Introspection (رات کا محاسبہ)</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="reflection-pledge-eval margin-bottom">
+                                    <div class="pledge-label">TARGET RESOLUTION EVALUATION:</div>
+                                    <h4 id="ahtisaab-pledge-sin-name" class="text-gold" style="margin: 4px 0 10px 0;">No resolution set today. Set one above!</h4>
+                                    
+                                    <p class="question-title" style="font-size:0.85rem; font-weight:600; color:var(--text-secondary); margin-bottom:8px;">Did you successfully avoid this targeted sin today?</p>
+                                    <div class="ahtisaab-yes-no-selector">
+                                        <button class="ahtisaab-select-btn success" id="btn-ahtisaab-avoided-yes" data-status="yes">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            <span>Yes, Avoided Completely</span>
+                                        </button>
+                                        <button class="ahtisaab-select-btn failed" id="btn-ahtisaab-avoided-no" data-status="no">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                            <span>Faltered / Sinned</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- BURE KAAM (BAD DEEDS) AUDIT -->
+                                <div class="additional-sins-area margin-bottom">
+                                    <p class="question-title" style="font-weight:600; color:var(--red-danger); font-size:0.9rem;">&#10006; Bure Kaam Audit (Bad deeds committed today):</p>
+                                    <div class="checkbox-options-grid" id="ahtisaab-bad-deeds-checkboxes" style="margin-bottom: 8px;">
+                                        <label class="sin-checkbox-container" for="sin-ch-backbiting">
+                                            <input type="checkbox" id="sin-ch-backbiting" value="Backbiting / Gheebat"> Backbiting (غیبت)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-lying">
+                                            <input type="checkbox" id="sin-ch-lying" value="Lying / Jhoot"> Lying (جھوٹ)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-prayer">
+                                            <input type="checkbox" id="sin-ch-prayer" value="Delaying Prayer"> Missing/Delaying Salah
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-waste">
+                                            <input type="checkbox" id="sin-ch-waste" value="Wasting time / Social Media"> Time Wasting (فضول وقت)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-anger">
+                                            <input type="checkbox" id="sin-ch-anger" value="Impatience / Anger"> Anger/Impatience (غصہ)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-rude">
+                                            <input type="checkbox" id="sin-ch-rude" value="Disrespect / Rude Speech"> Dishonesty/Rude Speech
+                                        </label>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-ahtisaab-custom-bad-deed" placeholder="Specify other bad deeds to avoid tomorrow..." aria-label="Custom bad deed">
+                                        <button class="btn btn-secondary" id="btn-add-ahtisaab-custom-bad-deed">Append</button>
+                                    </div>
+                                </div>
+
+                                <!-- ACHE KAAM (GOOD DEEDS) AUDIT -->
+                                <div class="additional-sins-area margin-bottom" style="border-top: 1px dashed var(--border-glass); padding-top: 16px;">
+                                    <p class="question-title" style="font-weight:600; color:var(--emerald); font-size:0.9rem;">&#10004; Ache Kaam Audit (Good deeds committed today):</p>
+                                    <div class="checkbox-options-grid" id="ahtisaab-good-deeds-checkboxes" style="margin-bottom: 8px;">
+                                        <label class="sin-checkbox-container" for="good-ch-prayers" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-prayers" value="Offered All Prayers On Time"> All Salah on time
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-dhikr" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-dhikr" value="Read Morning & Evening Adhkar"> Morning/Evening Dhikr
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-quran" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-quran" value="Recited Holy Quran"> Recited Quran
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-study" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-study" value="Completed Study Blocks"> Completed Study Blocks
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-parents" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-parents" value="Helped Parents / Family"> Helped Parents/Family
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-charity" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-charity" value="Gave Sadaqah / Act of Kindness"> Charity/Sadaqah
+                                        </label>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-ahtisaab-custom-good-deed" placeholder="Specify other good deeds performed today..." aria-label="Custom good deed">
+                                        <button class="btn btn-secondary" id="btn-add-ahtisaab-custom-good-deed">Append</button>
+                                    </div>
+                                </div>
+
+                                <!-- TAJDEED-E-TAUBAH OR ISTIGHFAR COUNTER -->
+                                <div class="istighfar-counter-card margin-top">
+                                    <div class="istighfar-flex">
+                                        <div>
+                                            <h4 class="tasbih-title">Istighfar Tasbih (استغفار)</h4>
+                                            <p class="urdu-script">أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ</p>
+                                            <p class="translation">"I seek the forgiveness of Allah and turn to Him in repentance."</p>
+                                        </div>
+                                        <div class="tap-counter-circle" id="btn-tap-istighfar" aria-label="Counter tap target">
+                                            <span class="count-value" id="istighfar-total-count">0</span>
+                                            <span class="count-instruction">TAP</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group margin-top">
+                                    <label for="textarea-ahtisaab-journal">Daily Self-Reflection Journal</label>
+                                    <textarea id="textarea-ahtisaab-journal" rows="3" placeholder="Write down your self-assessment, remorse or strategies to improve tomorrow..."></textarea>
+                                </div>
+
+                                <div class="action-btn-row">
+                                    <button class="btn btn-primary btn-block btn-lg" id="btn-submit-ahtisaab">Submit Today's Ahtisaab</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- STATS / HISTORY LOG -->
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Ahtisaab Trend Log (Last 7 Days)</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-subtitle">Keep tracking accountability to see your overall trend. Below are your daily self-reviews.</p>
+                                <div class="ahtisaab-history-feed" id="ahtisaab-history-feed-list">
+                                    <!-- Dynamic Feed items -->
+                                    <p class="text-center text-muted" id="placeholder-history-ahtisaab">Ahtisaab logs will accumulate here as you submit them daily.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- MODAL FOR ADDING CUSTOM ROUTINE TASK -->
+    <div class="modal-overlay" id="modal-add-routine">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Daily Routine Task</h3>
+                <button class="modal-close" id="btn-close-routine-modal" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="input-routine-task-name">Task Name</label>
+                    <input type="text" id="input-routine-task-name" placeholder="e.g. Read Surah Al-Mulk, Exercise, Morning walk" required>
+                </div>
+                <div class="form-group">
+                    <label for="select-routine-category">Category</label>
+                    <select id="select-routine-category">
+                        <option value="spiritual">Spiritual (روحانی)</option>
+                        <option value="academic">Academic & School (تعلیم)</option>
+                        <option value="health">Physical & Health (طبی)</option>
+                        <option value="other">General Routine (شروعات)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-routine-modal">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-routine-task">Add to Routine</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FOR ALARM TRIGGERS (POP-UP) -->
+    <div class="modal-overlay alarm-overlay" id="modal-alarm-ringing">
+        <div class="modal alarm-modal text-center">
+            <div class="alarm-pulsing-rings">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+            </div>
+            <h2 class="alarm-title" id="ringing-alarm-name">Prayer Time Reminder</h2>
+            <p class="alarm-desc" id="ringing-alarm-message">It is time for Fajr. Please stand up for prayer!</p>
+            <div class="action-btn-row margin-top">
+                <button class="btn btn-primary btn-lg" id="btn-dismiss-alarm">Offered / Dismiss Alarm</button>
+                <button class="btn btn-secondary-danger" id="btn-snooze-alarm">Snooze (5 Mins)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS REFLECTION OVERLAY ANIMATION -->
+    <div class="modal-overlay success-overlay" id="modal-reflection-success">
+        <div class="modal success-modal text-center">
+            <div class="glowing-success-icon">✓</div>
+            <h2 class="text-emerald">Ahtisaab Registered!</h2>
+            <p>Your self-accountability stats have been logged. May Allah grant you steadfastness (Istiqamah) to filter out bad habits and elevate your daily prayers!</p>
+            <blockquote class="hadith-snippet" id="success-hadith-snippet">
+                "The most beloved of deeds to Allah are those that are most consistent, even if they are small." (Bukhari)
+            </blockquote>
+            <button class="btn btn-primary margin-top" id="btn-close-success-modal">Alhamdulillah</button>
+        </div>
+    </div>
+
+    <!-- Core App Logic -->
+    <script src="appp.js" defer></script>
+</body>
+</html>
