@@ -1,0 +1,4110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductiveMuslim — Aesthetic Habit, Namaz & Self-Accountability Dashboard</title>
+    <meta name="description" content="Set your daily schedule, manage studies, record your prayers with alerts, and track self-accountability (Ahtisaab) to filter out bad habits. Highly animated, spiritual, and productive dashboard.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+
+    --bg-dark-base:  hsl(228, 20%, 10%);
+    --bg-dark-deep:  hsl(228, 22%, 7%);
+    --bg-glass-card: rgba(30, 35, 58, 0.48);
+    --border-glass:  rgba(255, 255, 255, 0.06);
+
+    --emerald:       hsl(160, 42%, 52%);
+    --emerald-glow:  hsla(160, 42%, 52%, 0.12);
+    --emerald-dark:  hsl(160, 42%, 28%);
+    --gold:          hsl(38, 62%, 60%);
+    --gold-glow:     hsla(38, 62%, 60%, 0.12);
+    --teal:          hsl(185, 55%, 48%);
+    --lavender:      hsl(250, 55%, 68%);
+    --lavender-glow: hsla(250, 55%, 68%, 0.12);
+    --red-danger:    hsl(0, 52%, 58%);
+    --red-glow:      hsla(0, 52%, 58%, 0.14);
+
+    --text-primary:   hsl(220, 30%, 94%);
+    --text-secondary: hsl(220, 18%, 70%);
+    --text-muted:     hsl(220, 12%, 52%);
+    --text-gold:      hsl(38, 72%, 68%);
+    --text-emerald:   hsl(160, 55%, 68%);
+    --text-lavender:  hsl(250, 70%, 78%);
+
+    --font-heading: 'Outfit', sans-serif;
+    --font-body:    'Inter', sans-serif;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+
+    --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-fast:   all 0.18s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark-base);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-dark-deep);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--emerald);
+}
+
+.glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(140px);
+    z-index: 0;
+    pointer-events: none;
+    animation: pulse-glow 14s infinite alternate ease-in-out;
+}
+.orb-1 {
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, hsl(160,40%,40%) 0%, transparent 75%);
+    opacity: 0.10;
+    top: -8vw;
+    right: -8vw;
+}
+.orb-2 {
+    width: 32vw;
+    height: 32vw;
+    background: radial-gradient(circle, hsl(250,45%,50%) 0%, transparent 75%);
+    opacity: 0.10;
+    bottom: -4vw;
+    left: -4vw;
+    animation-delay: -4s;
+}
+.orb-3 {
+    width: 26vw;
+    height: 26vw;
+    background: radial-gradient(circle, hsl(38,50%,48%) 0%, transparent 75%);
+    opacity: 0.08;
+    top: 35vh;
+    left: 28vw;
+    animation-delay: -8s;
+}
+
+@keyframes pulse-glow {
+    0%   { transform: translateY(0)    scale(1);    }
+    100% { transform: translateY(25px) scale(1.12); }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.text-gold { color: var(--text-gold); }
+.text-emerald { color: var(--text-emerald); }
+.text-muted { color: var(--text-muted); }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.flex-space { display: flex; justify-content: space-between; align-items: center; }
+.flex-center { display: flex; align-items: center; }
+.flex-column { display: flex; flex-direction: column; }
+.margin-bottom { margin-bottom: 20px; }
+.margin-top { margin-top: 20px; }
+.margin-right { margin-right: 8px; }
+.hidden { display: none !important; }
+
+.grid-columns-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.grid-columns-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+.grid-columns-3-2 {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 20px;
+}
+.align-start {
+    align-items: start;
+}
+
+.btn {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+}
+.btn-primary {
+    background: linear-gradient(135deg, var(--emerald) 0%, var(--teal) 100%);
+    color: white;
+    box-shadow: 0 4px 15px var(--emerald-glow);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px hsla(152, 65%, 45%, 0.35);
+}
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--border-glass);
+}
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.btn-secondary-action {
+    background: var(--gold-glow);
+    color: var(--text-gold);
+    border: 1px solid rgba(255, 179, 0, 0.3);
+}
+.btn-secondary-action:hover {
+    background: rgba(255, 179, 0, 0.25);
+    transform: translateY(-1px);
+}
+.btn-secondary-danger {
+    background: var(--red-glow);
+    color: var(--red-danger);
+    border: 1px solid rgba(255, 50, 50, 0.2);
+}
+.btn-secondary-danger:hover {
+    background: rgba(255, 50, 50, 0.3);
+}
+.btn-block {
+    width: 100%;
+}
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+}
+.btn-lg {
+    padding: 14px 28px;
+    font-size: 1.05rem;
+    border-radius: var(--radius-md);
+}
+.btn-icon-text svg {
+    margin-right: 8px;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 255px 1fr;
+    max-width: 100%;
+    min-height: 100vh;
+    z-index: 10;
+    position: relative;
+}
+
+.sidebar {
+    background: linear-gradient(180deg, hsl(228,24%,8%) 0%, hsl(228,20%,7%) 100%);
+    border-right: 1px solid var(--border-glass);
+    padding: 28px 18px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    margin-bottom: 40px;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.logo-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--emerald);
+    margin-right: 10px;
+    filter: drop-shadow(0 0 6px var(--emerald));
+}
+
+.app-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-gold) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: left;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    width: 100%;
+}
+
+.nav-btn svg {
+    margin-right: 12px;
+    transition: var(--transition-fast);
+    opacity: 0.7;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+}
+
+.nav-btn.active {
+    background: linear-gradient(90deg, var(--emerald-glow), transparent);
+    color: var(--text-emerald);
+    border-left: 3px solid var(--emerald);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-weight: 600;
+}
+
+.nav-btn.active svg {
+    color: var(--text-emerald);
+    opacity: 1;
+}
+
+.sidebar-footer {
+    border-top: 1px solid var(--border-glass);
+    padding-top: 20px;
+}
+
+.islamic-date-indicator {
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-glass);
+}
+
+.hijri-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-gold);
+    font-family: var(--font-heading);
+}
+
+.gregorian-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.main-content {
+    padding: 30px 40px;
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-welcome h2 {
+    font-size: 1.85rem;
+    background: linear-gradient(135deg, white, var(--text-secondary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.motto-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.realtime-clock {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-gold);
+    background: hsla(38, 40%, 30%, 0.18);
+    border: 1px solid rgba(200, 160, 80, 0.18);
+    padding: 8px 18px;
+    border-radius: var(--radius-md);
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(8px);
+}
+
+.inspiration-banner-card {
+    position: relative;
+    background: linear-gradient(135deg, hsla(230,28%,14%,0.7) 0%, hsla(160,28%,12%,0.6) 100%);
+    border: 1px solid rgba(160, 200, 180, 0.10);
+    border-radius: var(--radius-lg);
+    padding: 28px 30px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+}
+
+.inspiration-banner-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(255, 179, 0, 0.06), transparent 50%);
+    pointer-events: none;
+}
+
+.inspiration-badge {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    background: var(--gold-glow);
+    color: var(--text-gold);
+    border: 1px solid rgba(255, 179, 0, 0.25);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.inspiration-content {
+    margin-top: 20px;
+    max-width: 90%;
+    animation: fade-switch 0.4s ease-in-out;
+}
+
+.inspiration-quote {
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    font-style: italic;
+    color: var(--text-primary);
+}
+
+.inspiration-source {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--emerald);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.slider-next {
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    color: white;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+}
+
+.slider-next:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-50%) scale(1.08);
+}
+
+@keyframes fade-switch {
+    0% { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.glass-card {
+    background: var(--bg-glass-card);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.20);
+    transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
+    border-color: rgba(255, 255, 255, 0.09);
+}
+
+.glass-card.header-gradient {
+    background: linear-gradient(135deg, hsla(228,25%,13%,0.65) 0%, hsla(160,25%,11%,0.55) 100%);
+    border: 1px solid rgba(160, 200, 170, 0.09);
+}
+
+.card-header {
+    border-bottom: 1px solid var(--border-glass);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.card-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 16px;
+}
+
+.tab-contents-container {
+    position: relative;
+}
+
+.tab-pane {
+    display: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.tab-pane.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tab-pane-header {
+    margin-bottom: 25px;
+}
+
+.tab-pane-header h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.tab-pane-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.sin-presets-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.preset-badge {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.preset-badge:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.preset-badge.selected {
+    background: var(--red-glow);
+    border-color: rgba(255, 50, 50, 0.4);
+    color: var(--red-danger);
+    font-weight: 600;
+}
+
+.input-action-group {
+    display: flex;
+    gap: 10px;
+}
+
+.input-action-group input {
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.input-action-group input:focus {
+    border-color: var(--emerald);
+}
+
+.active-resolution-banner {
+    background: linear-gradient(135deg, rgba(82, 0, 0, 0.25) 0%, rgba(18, 15, 24, 0.4) 100%);
+    border: 1px solid rgba(255, 50, 50, 0.25);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner-badge {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--red-danger);
+    background: var(--red-glow);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.active-resolution-banner h4 {
+    font-size: 1.15rem;
+    color: white;
+    font-weight: 700;
+}
+
+.urdu-motto {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.progress-indicator-circle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circular-progress-svg-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.progress-ring-bar {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.ring-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.metric-title {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.center-card {
+    justify-content: center;
+}
+.subtle-badge-gold {
+    background: var(--gold-glow);
+    color: var(--text-gold);
+    border: 1px solid rgba(255, 179, 0, 0.2);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+}
+
+.heavy-title {
+    font-size: 2.2rem;
+    margin-top: 10px;
+    font-weight: 800;
+}
+
+.timer-countdown {
+    font-family: var(--font-heading);
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: white;
+    margin: 8px 0;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.timer-label {
+    font-size: 0.80rem;
+    color: var(--text-muted);
+}
+
+.checklist-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.checklist-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    transition: var(--transition-fast);
+    cursor: pointer;
+}
+
+.checklist-item:hover {
+    background: rgba(255,255,255,0.04);
+}
+
+.checklist-item input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    margin-right: 14px;
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition-fast);
+}
+
+.checklist-item input[type="checkbox"]:checked {
+    background: var(--emerald);
+    border-color: var(--emerald);
+}
+
+.checklist-item input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checklist-item label {
+    flex-grow: 1;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.checklist-item input[type="checkbox"]:checked + label {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.prayer-times-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.prayer-card {
+    background: var(--bg-glass-card);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(14px);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 190px;
+}
+
+.prayer-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.08);
+}
+
+.prayer-card-decor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+}
+
+.prayer-card.fajr .prayer-card-decor { background: radial-gradient(circle, var(--teal), transparent); }
+.prayer-card.dhuhr .prayer-card-decor { background: radial-gradient(circle, var(--gold), transparent); }
+.prayer-card.asr .prayer-card-decor { background: radial-gradient(circle, #e67e22, transparent); }
+.prayer-card.maghrib .prayer-card-decor { background: radial-gradient(circle, #e74c3c, transparent); }
+.prayer-card.isha .prayer-card-decor { background: radial-gradient(circle, #9b59b6, transparent); }
+.prayer-card.tahajjud .prayer-card-decor { background: radial-gradient(circle, #34495e, transparent); }
+
+.prayer-card.completed {
+    border-color: rgba(46, 204, 113, 0.25);
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.05) 0%, rgba(18, 25, 35, 0.45) 100%);
+}
+
+.prayer-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-heading);
+}
+
+.prayer-time-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: white;
+    padding: 0;
+    width: 142px;
+    cursor: pointer;
+}
+
+.prayer-time-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(1) brightness(0.9);
+    padding: 1px;
+    margin-left: 4px;
+    transition: var(--transition-fast);
+}
+
+.prayer-time-input::-webkit-calendar-picker-indicator:hover {
+    transform: scale(1.1);
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg);
+}
+
+.prayer-actions-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.prayer-checkbox-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-sm);
+    padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.prayer-checkbox-btn svg {
+    display: none;
+    transition: var(--transition-fast);
+}
+
+.prayer-card.completed .prayer-checkbox-btn {
+    background: var(--emerald);
+    border-color: var(--emerald);
+    color: white;
+}
+
+.prayer-card.completed .prayer-checkbox-btn svg {
+    display: inline-block;
+}
+
+.alarm-toggle-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.switch-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.switch-toggle {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.switch-toggle input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.slider-round {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.1);
+    transition: .3s;
+    border-radius: 34px;
+    z-index: 1;
+}
+
+.slider-round:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+.switch-toggle input:checked + .slider-round {
+    background-color: var(--emerald);
+}
+
+.switch-toggle input:checked + .slider-round:before {
+    transform: translateX(18px);
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--gold);
+}
+
+.no-margin {
+    margin-bottom: 0;
+}
+
+.pomodoro-focus-card {
+    background: linear-gradient(135deg, rgba(18, 25, 35, 0.45) 0%, rgba(35, 30, 20, 0.35) 100%);
+    border: 1px solid rgba(255, 179, 0, 0.08);
+}
+
+.pomodoro-timer-ring {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 15px;
+}
+
+.timer-spinner {
+    transform: rotate(-90deg);
+}
+
+.spinner-bar {
+    transition: stroke-dashoffset 0.1s linear;
+}
+
+.pomodoro-numbers {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: white;
+}
+
+.pomodoro-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.timer-mode-selection {
+    display: flex;
+    gap: 6px;
+}
+
+.timer-mode-selection button {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.timer-mode-selection button:hover {
+    color: white;
+}
+
+.timer-mode-selection button.active {
+    background: var(--gold-glow);
+    color: var(--text-gold);
+    border-color: rgba(255, 179, 0, 0.3);
+}
+
+.study-agenda-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.study-block-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-fast);
+}
+
+.study-block-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.study-block-info h4 {
+    font-size: 1.05rem;
+    color: var(--text-primary);
+}
+
+.study-block-info p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.study-block-time {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-gold);
+    background: rgba(255, 179, 0, 0.06);
+    border: 1px solid rgba(255, 179, 0, 0.12);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+}
+
+.reflection-pledge-eval {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    border: 1px dashed var(--border-glass);
+}
+
+.pledge-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+.question-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 12px 0 8px 0;
+}
+
+.ahtisaab-yes-no-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.ahtisaab-select-btn {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.ahtisaab-select-btn:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.ahtisaab-select-btn.success.active {
+    background: var(--emerald-glow);
+    border-color: var(--emerald);
+    color: var(--text-emerald);
+}
+
+.ahtisaab-select-btn.failed.active {
+    background: var(--red-glow);
+    border-color: var(--red-danger);
+    color: var(--red-danger);
+}
+
+.checkbox-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.sin-checkbox-container {
+    background: rgba(255,255,255,0.01);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+}
+
+.sin-checkbox-container input {
+    margin-right: 8px;
+}
+
+.sin-checkbox-container:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+.istighfar-counter-card {
+    background: linear-gradient(135deg, rgba(16, 32, 28, 0.45) 0%, rgba(13, 20, 32, 0.45) 100%);
+    border: 1px solid rgba(46, 204, 113, 0.12);
+    border-radius: var(--radius-md);
+    padding: 18px;
+}
+
+.istighfar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tasbih-title {
+    font-size: 1rem;
+    color: var(--text-emerald);
+}
+
+.urdu-script {
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin: 4px 0;
+    color: white;
+}
+
+.translation {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-style: italic;
+    max-width: 250px;
+}
+
+.tap-counter-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--emerald) 0%, var(--teal) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--emerald-glow);
+    transition: transform 0.1s ease;
+    user-select: none;
+}
+
+.tap-counter-circle:active {
+    transform: scale(0.92);
+}
+
+.count-value {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+}
+
+.count-instruction {
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+}
+
+.ahtisaab-history-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.history-feed-item {
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+
+.history-item-header {
+    border-bottom: 1px dashed var(--border-glass);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.history-date {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-gold);
+}
+
+.history-status-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.history-status-badge.avoided {
+    background: var(--emerald-glow);
+    color: var(--text-emerald);
+}
+
+.history-status-badge.failed {
+    background: var(--red-glow);
+    color: var(--red-danger);
+}
+
+.history-body-details {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition-smooth);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal {
+    background: hsl(220, 24%, 8%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 480px;
+    padding: 24px;
+    transform: scale(0.9);
+    transition: var(--transition-smooth);
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-glass);
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 0.5;
+}
+
+.modal-close:hover {
+    color: white;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-glass);
+    padding-top: 14px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.alarm-modal {
+    max-width: 400px;
+    background: linear-gradient(135deg, hsl(220, 24%, 6%) 0%, hsl(2, 60%, 8%) 100%);
+    border-color: rgba(255, 50, 50, 0.2);
+}
+
+.alarm-pulsing-rings {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px auto;
+}
+
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 50, 50, 0.15);
+    border-radius: 50%;
+    animation: alarm-pulse 2s infinite ease-out;
+}
+.pulse-ring:nth-child(2) { animation-delay: 0.6s; }
+.pulse-ring:nth-child(3) { animation-delay: 1.2s; }
+
+@keyframes alarm-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+.alarm-title {
+    font-size: 1.45rem;
+    color: var(--red-danger);
+    margin-bottom: 8px;
+}
+
+.alarm-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.success-modal {
+    max-width: 420px;
+    background: linear-gradient(135deg, hsl(220, 24%, 6%) 0%, hsl(140, 45%, 6%) 100%);
+    border-color: rgba(46, 204, 113, 0.2);
+}
+
+.glowing-success-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--emerald);
+    color: white;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px auto;
+    box-shadow: 0 0 20px var(--emerald);
+}
+
+.hadith-snippet {
+    background: rgba(255,255,255,0.02);
+    border-left: 3px solid var(--emerald);
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-top: 15px;
+    text-align: left;
+}
+
+@media (max-width: 1400px) {
+    .app-container {
+        grid-template-columns: 240px 1fr;
+    }
+}
+
+@media (max-width: 1024px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--border-glass);
+        padding: 20px;
+    }
+
+    .sidebar-header {
+        margin-bottom: 20px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .nav-btn {
+        white-space: nowrap;
+        width: auto;
+        padding: 8px 14px;
+    }
+
+    .nav-btn.active {
+        border-left: none;
+        border-bottom: 3px solid var(--emerald);
+        border-radius: 0;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .grid-columns-3-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-columns-2, .grid-columns-3, .checkbox-options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .realtime-clock {
+        font-size: 1.1rem;
+        padding: 6px 12px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .realtime-clock {
+        align-self: flex-end;
+    }
+
+    .timer-countdown {
+        font-size: 2.2rem;
+    }
+
+    .prayer-times-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ahtisaab-yes-no-selector {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-block-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .schedule-block-time-badge {
+        align-self: flex-start;
+        min-width: unset;
+        width: auto;
+        text-align: left;
+    }
+
+    .schedule-block-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+}
+
+.studies-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.subject-library-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 320px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    padding-right: 4px;
+}
+
+.subject-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    transition: var(--transition-fast);
+    cursor: default;
+}
+
+.subject-chip:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.subject-color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.subject-chip-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex-grow: 1;
+}
+
+.subject-chip-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+.subject-chip-del {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0 4px;
+    transition: var(--transition-fast);
+    border-radius: 4px;
+}
+.subject-chip-del:hover { color: var(--red-danger); background: var(--red-glow); }
+
+.add-subject-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(255,255,255,0.08);
+    border-radius: var(--radius-md);
+    padding: 14px;
+}
+
+.add-subject-form-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.add-subject-form input[type="text"] {
+    flex-grow: 1;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-family: inherit;
+    outline: none;
+    transition: var(--transition-fast);
+}
+.add-subject-form input[type="text"]:focus {
+    border-color: var(--lavender);
+}
+
+.color-swatches {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+.color-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.color-swatch:hover      { transform: scale(1.2); }
+.color-swatch.picked     { border-color: white; transform: scale(1.2); }
+
+.subject-select-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.subject-select-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border-glass);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.subject-select-pill .pill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.subject-select-pill.selected {
+    background: rgba(255,255,255,0.08);
+    color: var(--text-primary);
+    border-color: rgba(255,255,255,0.15);
+}
+
+.schedule-time-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 10px;
+    align-items: end;
+}
+
+.schedule-agenda-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.schedule-block-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    border-left: 4px solid var(--emerald);
+    transition: var(--transition-fast);
+}
+
+.schedule-block-card.done {
+    opacity: 0.55;
+    border-left-color: var(--text-muted);
+}
+
+.schedule-block-card:hover {
+    background: rgba(255,255,255,0.04);
+}
+
+.schedule-block-time-badge {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    min-width: 110px;
+    text-align: center;
+}
+
+.schedule-block-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.schedule-block-subject {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.schedule-block-topic {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.schedule-block-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.sba-btn {
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    color: var(--text-muted);
+}
+.sba-btn:hover          { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+.sba-btn.done-btn       { color: var(--text-emerald); border-color: rgba(100,200,150,0.25); }
+.sba-btn.del-btn:hover  { background: var(--red-glow); color: var(--red-danger); border-color: var(--red-danger); }
+
+.empty-state-msg {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 24px 0;
+}
+
+@media (max-width: 900px) {
+    .studies-layout {
+        grid-template-columns: 1fr;
+    }
+    .schedule-time-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    .schedule-time-row .btn-primary {
+        grid-column: span 2;
+    }
+}
+</style>
+</head>
+<body>
+
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <div class="app-container">
+
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo" style="gap: 12px;">
+                    <svg viewBox="0 0 24 24" class="logo-icon" style="width:32px; height:32px; fill:none; stroke:var(--text-gold); stroke-width:1.5;">
+
+                        <path d="M11 3a8.5 8.5 0 1 0 9.5 9.5A9.2 9.2 0 0 1 11 3z" fill="var(--text-gold)" />
+
+                        <polygon points="18,5 19,7 21,7 19.5,8.5 20,10.5 18,9.5 16,10.5 16.5,8.5 15,7 17,7" fill="var(--emerald)" stroke="var(--emerald)" stroke-width="0.5"/>
+                    </svg>
+                    <span style="font-family:var(--font-heading); font-weight:800; font-size:1.35rem; background:linear-gradient(135deg, white, var(--text-gold)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">ProductiveMuslim</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="dashboard" id="nav-btn-dashboard" aria-label="Open Dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-btn" data-tab="namaz" id="nav-btn-namaz" aria-label="Open Namaz Planner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Namaz & Alarms</span>
+                </button>
+                <button class="nav-btn" data-tab="schedule" id="nav-btn-schedule" aria-label="Open Course Schedule">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Studies & Courses</span>
+                </button>
+                <button class="nav-btn" data-tab="ahtisaab" id="nav-btn-ahtisaab" aria-label="Open Self Accountability">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Ahtisaab Portal</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="islamic-date-indicator">
+                    <div class="hijri-label" id="hijri-date-val">15 Muharram 1448 AH</div>
+                    <div class="gregorian-label" id="gregorian-date-val">July 5, 2026</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="top-bar">
+                <div class="header-welcome">
+                    <h2>السلام عليكم</h2>
+                    <p class="motto-text">"Verily, with hardship comes ease." (94:5)</p>
+                </div>
+                <div class="header-actions">
+                    <div class="notification-lock" id="notification-prompt-banner">
+                        <button class="btn btn-secondary btn-icon-text" id="btn-request-notifications" aria-label="Enable Reminders">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span>Enable Alarms</span>
+                        </button>
+                    </div>
+                    <div class="realtime-clock" id="digital-clock" aria-live="polite">00:00:00 PM</div>
+                </div>
+            </header>
+
+            <section class="inspiration-banner-card" id="inspiration-card">
+                <div class="inspiration-badge">Inspiration of the Day</div>
+                <div class="inspiration-content" id="inspiration-slider">
+                    <blockquote class="inspiration-quote" id="inspiration-quote-text">
+                        "Allah does not burden a soul beyond that it can bear."
+                    </blockquote>
+                    <cite class="inspiration-source" id="inspiration-quote-source">Surah Al-Baqarah 2:286</cite>
+                </div>
+                <button class="slider-next" id="btn-next-inspiration" aria-label="Next Verse">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </section>
+
+            <div class="tab-contents-container">
+
+                <div class="tab-pane active" id="tab-dashboard" data-tab-name="dashboard">
+
+                    <div class="grid-columns-2 margin-bottom">
+
+                        <div class="glass-card active-reflection-focus">
+                            <div class="card-header">
+                                <h3 class="card-title text-gold flex-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="margin-right"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                    Morning Focus: Sins to Subtract (Minus) Today
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-subtitle">Set the habit, sin, or negative trigger you pledge to actively subtract from your life today.</p>
+
+                                <div id="morning-focus-entry-area">
+                                    <div class="sin-presets-container" id="sin-presets">
+                                        <button class="preset-badge" data-sin="Backbiting / Gheebat">Backbiting (غیبت)</button>
+                                        <button class="preset-badge" data-sin="Lying / Jhoot">Lying (جھوٹ)</button>
+                                        <button class="preset-badge" data-sin="Wasting Study Time">Wasting Study Time</button>
+                                        <button class="preset-badge" data-sin="Wasting Hours on Social Media">Social Media Doomscrolling</button>
+                                        <button class="preset-badge" data-sin="Anger / Bad Temper">Anger (غصہ)</button>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-custom-sin-focus" placeholder="Enter target sin or custom bad habit to avoid..." aria-label="Target Sin Input">
+                                        <button class="btn btn-primary" id="btn-save-morning-focus">Set Resolution</button>
+                                    </div>
+                                </div>
+
+                                <div id="morning-focus-active-area" class="hidden">
+                                    <div class="active-resolution-banner">
+                                        <div class="banner-badge">PLEDGED FOR TODAY</div>
+                                        <div class="banner-content">
+                                            <h4 id="active-sin-name">Avoiding Screen Waste</h4>
+                                            <p class="urdu-motto">"العبد يخطئ والتائب يتوب"</p>
+                                        </div>
+                                        <div class="banner-actions">
+                                            <button class="btn btn-secondary-danger btn-sm" id="btn-reset-resolution">Change Focus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Daily Progress Hub</h3>
+                            </div>
+                            <div class="card-body grid-columns-3 text-center">
+                                <div class="progress-indicator-circle">
+                                    <div class="circular-progress-svg-wrapper">
+                                        <svg class="progress-ring" width="80" height="80">
+                                            <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                            <circle class="progress-ring-bar" id="ring-namaz-bar" stroke="var(--emerald)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                        </svg>
+                                        <div id="text-namaz-score" class="ring-percentage">0/5</div>
+                                    </div>
+                                    <div class="metric-title">Namaz</div>
+                                </div>
+
+                                <div class="progress-indicator-circle">
+                                    <div class="circular-progress-svg-wrapper">
+                                        <svg class="progress-ring" width="80" height="80">
+                                            <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                            <circle class="progress-ring-bar" id="ring-study-bar" stroke="var(--gold)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                        </svg>
+                                        <div id="text-study-score" class="ring-percentage">0%</div>
+                                    </div>
+                                    <div class="metric-title">Studies</div>
+                                </div>
+
+                                <div class="progress-indicator-circle">
+                                    <div class="circular-progress-svg-wrapper">
+                                        <svg class="progress-ring" width="80" height="80">
+                                            <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                            <circle class="progress-ring-bar" id="ring-routine-bar" stroke="var(--teal)" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+                                        </svg>
+                                        <div id="text-routine-score" class="ring-percentage">0%</div>
+                                    </div>
+                                    <div class="metric-title">Routine</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="grid-columns-3-2">
+
+                        <div class="glass-card center-card flex-column flex-center text-center header-gradient">
+                            <span class="subtle-badge-gold">UPCOMING ADHAN</span>
+                            <h3 id="next-prayer-name" class="heavy-title">Dhuhr</h3>
+                            <div class="timer-countdown" id="next-prayer-timer">02:15:40</div>
+                            <span class="timer-label" id="next-prayer-timing-label">Begins at 01:15 PM</span>
+                            <div class="action-row margin-top">
+                                <button class="btn btn-primary" id="btn-quick-play-chime">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="margin-right"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                                    Test Spiritual Alarm Tone
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="glass-card">
+                            <div class="card-header flex-space">
+                                <h3 class="card-title">Daily Routine Items</h3>
+                                <button class="btn btn-secondary-action btn-sm" id="btn-add-routine-modal" aria-label="Add Routine Task">+ Add Task</button>
+                            </div>
+                            <div class="card-body">
+                                <ul class="checklist-list" id="dashboard-routine-list">
+
+                                    <li class="checklist-item finished">
+                                        <input type="checkbox" checked id="def-item-1">
+                                        <label for="def-item-1">Morning Dhikr (اذکار صبح)</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="tab-pane" id="tab-namaz" data-tab-name="namaz">
+                    <div class="tab-pane-header">
+                        <h2>Namaz Trackers & customizable alerts</h2>
+                        <p>Configure your local timetable, mark offered prayers on time, and manage notification alarms.</p>
+                    </div>
+
+                    <div class="prayer-times-grid" id="prayer-cards-container">
+
+                        <div class="prayer-card fajr" data-prayer="fajr">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Fajr (فجر)</span>
+                                <input type="time" class="prayer-time-input" id="time-fajr" value="04:30" aria-label="Fajr time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-fajr" aria-label="Mark Fajr Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-fajr">
+                                        <input type="checkbox" id="alarm-switch-fajr" checked class="alarm-trigger" aria-label="Fajr Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="prayer-card dhuhr" data-prayer="dhuhr">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Dhuhr (ظہر)</span>
+                                <input type="time" class="prayer-time-input" id="time-dhuhr" value="13:15" aria-label="Dhuhr time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-dhuhr" aria-label="Mark Dhuhr Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-dhuhr">
+                                        <input type="checkbox" id="alarm-switch-dhuhr" checked class="alarm-trigger" aria-label="Dhuhr Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="prayer-card asr" data-prayer="asr">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Asr (عصر)</span>
+                                <input type="time" class="prayer-time-input" id="time-asr" value="17:00" aria-label="Asr time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-asr" aria-label="Mark Asr Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-asr">
+                                        <input type="checkbox" id="alarm-switch-asr" checked class="alarm-trigger" aria-label="Asr Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="prayer-card maghrib" data-prayer="maghrib">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Maghrib (مغرب)</span>
+                                <input type="time" class="prayer-time-input" id="time-maghrib" value="19:25" aria-label="Maghrib time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-maghrib" aria-label="Mark Maghrib Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-maghrib">
+                                        <input type="checkbox" id="alarm-switch-maghrib" checked class="alarm-trigger" aria-label="Maghrib Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="prayer-card isha" data-prayer="isha">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Isha (عشاء)</span>
+                                <input type="time" class="prayer-time-input" id="time-isha" value="20:55" aria-label="Isha time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-isha" aria-label="Mark Isha Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-isha">
+                                        <input type="checkbox" id="alarm-switch-isha" checked class="alarm-trigger" aria-label="Isha Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="prayer-card tahajjud" data-prayer="tahajjud">
+                            <div class="prayer-card-decor"></div>
+                            <div class="prayer-info">
+                                <span class="prayer-title">Tahajjud (تہجد)</span>
+                                <input type="time" class="prayer-time-input" id="time-tahajjud" value="03:15" aria-label="Tahajjud time">
+                            </div>
+                            <div class="prayer-actions-section">
+                                <button class="prayer-checkbox-btn" id="check-btn-tahajjud" aria-label="Mark Tahajjud Completed">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span>Offered</span>
+                                </button>
+                                <div class="alarm-toggle-control">
+                                    <span class="switch-label">Alarm Mode</span>
+                                    <label class="switch-toggle" for="alarm-switch-tahajjud">
+                                        <input type="checkbox" id="alarm-switch-tahajjud" class="alarm-trigger" aria-label="Tahajjud Alarm Switch">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-schedule" data-tab-name="schedule">
+                    <div class="tab-pane-header">
+                        <h2>Studies &amp; Course Scheduler</h2>
+                        <p>Set up your Courses (e.g. DIT), define different Subjects, schedule weekly time slots on specific days, and toggle alerts.</p>
+                    </div>
+
+                    <div class="studies-layout">
+
+                        <div style="display:flex; flex-direction:column; gap:20px;">
+
+                            <div class="glass-card">
+                                <div class="card-header flex-space">
+                                    <h3 class="card-title">&#127891; My Courses</h3>
+                                    <span style="font-size:0.75rem;color:var(--text-muted);" id="courses-count-label">0 courses</span>
+                                </div>
+                                <div class="subject-library-list" id="courses-library-list" style="max-height: 180px;">
+                                    <p class="empty-state-msg" id="empty-courses-msg">No courses added. Set up a course like DIT below!</p>
+                                </div>
+                                <div class="add-subject-form">
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-course-name" placeholder="Course name (e.g., DIT)..." aria-label="Course name" maxlength="40">
+                                    </div>
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-course-desc" placeholder="Details (e.g., Diploma in IT)" aria-label="Course description" maxlength="50">
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-add-new-course" style="width:100%">+ Add Course</button>
+                                </div>
+                            </div>
+
+                            <div class="glass-card">
+                                <div class="card-header flex-space">
+                                    <h3 class="card-title">&#128218; My Subjects</h3>
+                                    <span style="font-size:0.75rem;color:var(--text-muted);" id="subject-count-label">0 subjects</span>
+                                </div>
+                                <div class="subject-library-list" id="subject-library-list" style="max-height: 220px;">
+                                    <p class="empty-state-msg" id="empty-subjects-msg">No subjects yet. Select a course and add subjects!</p>
+                                </div>
+                                <div class="add-subject-form">
+                                    <div class="form-group" style="margin-bottom: 8px;">
+                                        <label for="select-subject-course">Link to Course</label>
+                                        <select id="select-subject-course" style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 8px 12px; color: white; width:100%;">
+                                            <option value="">-- Select Course --</option>
+                                        </select>
+                                    </div>
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-subject-name" placeholder="Subject name (e.g., OOP, HTML)..." aria-label="Subject name" maxlength="40">
+                                    </div>
+                                    <div class="add-subject-form-row">
+                                        <input type="text" id="input-new-subject-desc" placeholder="Note (e.g., Room 3 or Teacher)" aria-label="Subject note" maxlength="50">
+                                    </div>
+                                    <div class="color-swatches" id="subject-color-swatches" role="group" aria-label="Pick color" style="margin-top: 5px; margin-bottom: 5px;">
+                                        <div class="color-swatch picked" data-color="#5b8dee" style="background:#5b8dee" title="Blue"></div>
+                                        <div class="color-swatch" data-color="#5cb87a" style="background:#5cb87a" title="Green"></div>
+                                        <div class="color-swatch" data-color="#e5a34b" style="background:#e5a34b" title="Amber"></div>
+                                        <div class="color-swatch" data-color="#c97be8" style="background:#c97be8" title="Lavender"></div>
+                                        <div class="color-swatch" data-color="#e86b5f" style="background:#e86b5f" title="Coral"></div>
+                                        <div class="color-swatch" data-color="#50c8d0" style="background:#50c8d0" title="Teal"></div>
+                                        <div class="color-swatch" data-color="#f0a0c0" style="background:#f0a0c0" title="Pink"></div>
+                                        <div class="color-swatch" data-color="#a0c0dc" style="background:#a0c0dc" title="Steel"></div>
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-add-new-subject" style="width:100%;">+ Add Subject</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;flex-direction:column;gap:20px;">
+
+                            <div class="glass-card">
+                                <div class="card-header flex-space">
+                                    <h3 class="card-title">&#128197; Weekly Study Timetable</h3>
+                                    <button class="btn btn-secondary-danger btn-sm" id="btn-clear-study-schedule">Clear All</button>
+                                </div>
+
+                                <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;font-weight:600;letter-spacing:.05em;">1. SELECT SUBJECT TO schedule:</p>
+                                <div class="subject-select-grid" id="subject-select-grid">
+                                    <p class="empty-state-msg" id="empty-subject-pills-msg" style="padding:6px 0;margin:0;">Select a Course and verify its Subjects on the left.</p>
+                                </div>
+
+                                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:14px;margin-bottom:8px;font-weight:600;letter-spacing:.05em;">2. SELECT TARGET STUDY DAY:</p>
+                                <div class="day-swatches-grid" id="schedule-day-swatches" style="display:flex; gap:67x; flex-wrap:wrap; margin-bottom:14px;">
+                                    <button class="preset-badge selected" data-day="Monday">Monday</button>
+                                    <button class="preset-badge" data-day="Tuesday">Tuesday</button>
+                                    <button class="preset-badge" data-day="Wednesday">Wednesday</button>
+                                    <button class="preset-badge" data-day="Thursday">Thursday</button>
+                                    <button class="preset-badge" data-day="Friday">Friday</button>
+                                    <button class="preset-badge" data-day="Saturday">Saturday</button>
+                                    <button class="preset-badge" data-day="Sunday">Sunday</button>
+                                </div>
+
+                                <div class="schedule-time-row" style="margin-top:14px;">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label for="sched-start">Start Time</label>
+                                        <input type="time" id="sched-start" value="14:00" aria-label="Start time">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label for="sched-end">End Time</label>
+                                        <input type="time" id="sched-end" value="15:00" aria-label="End time">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:0; display: flex; align-items: center; gap: 8px;">
+                                        <div style="display:flex; flex-direction:column; align-items:flex-start; margin-right: 10px;">
+                                            <span style="font-size: 0.75rem; font-weight:600; color:var(--text-secondary); text-transform:uppercase;">Study Alarm</span>
+                                            <label class="switch-toggle" for="sched-alarm-active" style="margin-top:6px;">
+                                                <input type="checkbox" id="sched-alarm-active" checked>
+                                                <span class="slider-round"></span>
+                                            </label>
+                                        </div>
+                                        <button class="btn btn-primary" id="btn-add-schedule-block" style="white-space:nowrap; height: 38px;">+ Add Block</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-top:14px;margin-bottom:0;">
+                                    <label for="sched-topic">Topic / Goal for this session</label>
+                                    <input type="text" id="sched-topic" placeholder="e.g., Chapter 5 derivations, Revise OOP…" aria-label="Topic goal">
+                                </div>
+
+                                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:20px;margin-bottom:8px;font-weight:600;letter-spacing:.05em;">3. CHOOSE DISPLAY DAY:</p>
+                                <div class="day-filter-tabs" id="day-filter-tabs" style="display:flex; gap:6px; flex-wrap:wrap; border-bottom:1px solid var(--border-glass); padding-bottom:10px; margin-bottom:14px;">
+                                    <button class="btn btn-secondary btn-sm active" data-filter="All">All Days</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Monday">Mon</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Tuesday">Tue</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Wednesday">Wed</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Thursday">Thu</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Friday">Fri</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Saturday">Sat</button>
+                                    <button class="btn btn-secondary btn-sm" data-filter="Sunday">Sun</button>
+                                </div>
+
+                                <div class="schedule-agenda-container" id="schedule-agenda-container">
+                                    <p class="empty-state-msg" id="empty-schedule-msg">No blocks yet. Pick a course, subject, day/time, and add a study block.</p>
+                                </div>
+                            </div>
+
+                            <div class="glass-card pomodoro-focus-card">
+                                <div class="card-header flex-center">
+                                    <h3 class="card-title text-gold">&#9203; Focus Station (Pomodoro)</h3>
+                                </div>
+                                <div class="card-body flex-column flex-center text-center">
+                                    <div class="pomodoro-timer-ring">
+                                        <svg class="timer-spinner" width="180" height="180">
+                                            <circle class="spinner-bg" stroke="rgba(255,255,255,0.06)" stroke-width="8" fill="transparent" r="80" cx="90" cy="90"/>
+                                            <circle class="spinner-bar" id="pomodoro-progress-bar" stroke="var(--gold)" stroke-dasharray="502" stroke-dashoffset="0" stroke-width="8" fill="transparent" r="80" cx="90" cy="90"/>
+                                        </svg>
+                                        <div class="pomodoro-numbers" id="pomodoro-display">25:00</div>
+                                    </div>
+                                    <div class="pomodoro-controls">
+                                        <button class="btn btn-secondary-action" id="btn-pomo-start">Start</button>
+                                        <button class="btn btn-secondary" id="btn-pomo-pause">Pause</button>
+                                        <button class="btn btn-secondary-danger" id="btn-pomo-reset">Reset</button>
+                                    </div>
+                                    <div class="timer-mode-selection">
+                                        <button class="active" data-duration="25" id="pomo-mode-study">Study (25m)</button>
+                                        <button data-duration="5" id="pomo-mode-break">Short Break (5m)</button>
+                                        <button data-duration="15" id="pomo-mode-long">Long Break (15m)</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-ahtisaab" data-tab-name="ahtisaab">
+                    <div class="tab-pane-header">
+                        <h2>Personal Ahtisaab &amp; Introspection Portal (احتساب پورٹل)</h2>
+                        <p>Set a daily morning resolution to avoid a specific bad habit, and audit your good &amp; bad deeds tonight.</p>
+                    </div>
+                    <div class="grid-columns-3-2 align-start">
+
+                        <div class="glass-card reflection-card">
+
+                            <div class="card-header" style="border-bottom: 1px solid var(--border-glass); padding-bottom:12px; margin-bottom:16px;">
+                                <h3 class="card-title text-gold">&#9788; Morning Focus: Sin Prevention Pledge</h3>
+                            </div>
+                            <div class="card-body" style="margin-bottom: 24px;">
+                                <div id="ahtisaab-morning-entry-area">
+                                    <p class="card-subtitle" style="margin-bottom: 10px;">Select or write a target sin/bad habit you pledge to avoid today (will sync with Dashboard):</p>
+                                    <div class="sin-presets-container" id="ahtisaab-sin-presets" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                                        <button class="preset-badge" data-sin="Backbiting / Gheebat">Backbiting (غیبت)</button>
+                                        <button class="preset-badge" data-sin="Lying / Jhoot">Lying (جھوٹ)</button>
+                                        <button class="preset-badge" data-sin="Wasting Study Time">Wasting Study Time</button>
+                                        <button class="preset-badge" data-sin="Social Media Doomscrolling">Social Media Doomscrolling</button>
+                                        <button class="preset-badge" data-sin="Anger / Bad Temper">Anger (غصہ)</button>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-ahtisaab-custom-sin-focus" placeholder="Enter custom target sin..." aria-label="Target Sin Input">
+                                        <button class="btn btn-primary" id="btn-save-ahtisaab-morning-focus">Set Resolution</button>
+                                    </div>
+                                </div>
+                                <div id="ahtisaab-morning-active-area" class="hidden">
+                                    <div class="active-resolution-banner" style="background: linear-gradient(135deg, rgba(82, 0, 0, 0.25) 0%, rgba(18, 15, 24, 0.4) 100%); border: 1px solid rgba(255, 50, 50, 0.25); border-radius: var(--radius-md); padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <span class="banner-badge" style="font-size:0.65rem; font-weight:800; color:var(--red-danger); background:var(--red-glow); padding:2px 8px; border-radius:4px;">ACTIVE RESOLUTION</span>
+                                            <h4 id="ahtisaab-active-sin-name" style="margin-top:6px; font-size:1.1rem; color:white;">Avoiding Screen Waste</h4>
+                                        </div>
+                                        <button class="btn btn-secondary-danger btn-sm" id="btn-reset-ahtisaab-resolution">Change Focus</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-header" style="border-top:1px solid var(--border-glass); border-bottom:1px solid var(--border-glass); padding: 16px 0 12px 0; margin-bottom:16px;">
+                                <h3 class="card-title text-emerald">&#9790; Night Introspection (رات کا محاسبہ)</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="reflection-pledge-eval margin-bottom">
+                                    <div class="pledge-label">TARGET RESOLUTION EVALUATION:</div>
+                                    <h4 id="ahtisaab-pledge-sin-name" class="text-gold" style="margin: 4px 0 10px 0;">No resolution set today. Set one above!</h4>
+
+                                    <p class="question-title" style="font-size:0.85rem; font-weight:600; color:var(--text-secondary); margin-bottom:8px;">Did you successfully avoid this targeted sin today?</p>
+                                    <div class="ahtisaab-yes-no-selector">
+                                        <button class="ahtisaab-select-btn success" id="btn-ahtisaab-avoided-yes" data-status="yes">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            <span>Yes, Avoided Completely</span>
+                                        </button>
+                                        <button class="ahtisaab-select-btn failed" id="btn-ahtisaab-avoided-no" data-status="no">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                            <span>Faltered / Sinned</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="additional-sins-area margin-bottom">
+                                    <p class="question-title" style="font-weight:600; color:var(--red-danger); font-size:0.9rem;">&#10006; Bure Kaam Audit (Bad deeds committed today):</p>
+                                    <div class="checkbox-options-grid" id="ahtisaab-bad-deeds-checkboxes" style="margin-bottom: 8px;">
+                                        <label class="sin-checkbox-container" for="sin-ch-backbiting">
+                                            <input type="checkbox" id="sin-ch-backbiting" value="Backbiting / Gheebat"> Backbiting (غیبت)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-lying">
+                                            <input type="checkbox" id="sin-ch-lying" value="Lying / Jhoot"> Lying (جھوٹ)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-prayer">
+                                            <input type="checkbox" id="sin-ch-prayer" value="Delaying Prayer"> Missing/Delaying Salah
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-waste">
+                                            <input type="checkbox" id="sin-ch-waste" value="Wasting time / Social Media"> Time Wasting (فضول وقت)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-anger">
+                                            <input type="checkbox" id="sin-ch-anger" value="Impatience / Anger"> Anger/Impatience (غصہ)
+                                        </label>
+                                        <label class="sin-checkbox-container" for="sin-ch-rude">
+                                            <input type="checkbox" id="sin-ch-rude" value="Disrespect / Rude Speech"> Dishonesty/Rude Speech
+                                        </label>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-ahtisaab-custom-bad-deed" placeholder="Specify other bad deeds to avoid tomorrow..." aria-label="Custom bad deed">
+                                        <button class="btn btn-secondary" id="btn-add-ahtisaab-custom-bad-deed">Append</button>
+                                    </div>
+                                </div>
+
+                                <div class="additional-sins-area margin-bottom" style="border-top: 1px dashed var(--border-glass); padding-top: 16px;">
+                                    <p class="question-title" style="font-weight:600; color:var(--emerald); font-size:0.9rem;">&#10004; Ache Kaam Audit (Good deeds committed today):</p>
+                                    <div class="checkbox-options-grid" id="ahtisaab-good-deeds-checkboxes" style="margin-bottom: 8px;">
+                                        <label class="sin-checkbox-container" for="good-ch-prayers" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-prayers" value="Offered All Prayers On Time"> All Salah on time
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-dhikr" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-dhikr" value="Read Morning & Evening Adhkar"> Morning/Evening Dhikr
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-quran" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-quran" value="Recited Holy Quran"> Recited Quran
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-study" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-study" value="Completed Study Blocks"> Completed Study Blocks
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-parents" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-parents" value="Helped Parents / Family"> Helped Parents/Family
+                                        </label>
+                                        <label class="sin-checkbox-container" for="good-ch-charity" style="border-color: rgba(46, 204, 113, 0.15)">
+                                            <input type="checkbox" id="good-ch-charity" value="Gave Sadaqah / Act of Kindness"> Charity/Sadaqah
+                                        </label>
+                                    </div>
+                                    <div class="input-action-group">
+                                        <input type="text" id="input-ahtisaab-custom-good-deed" placeholder="Specify other good deeds performed today..." aria-label="Custom good deed">
+                                        <button class="btn btn-secondary" id="btn-add-ahtisaab-custom-good-deed">Append</button>
+                                    </div>
+                                </div>
+
+                                <div class="istighfar-counter-card margin-top">
+                                    <div class="istighfar-flex">
+                                        <div>
+                                            <h4 class="tasbih-title">Istighfar Tasbih (استغفار)</h4>
+                                            <p class="urdu-script">أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ</p>
+                                            <p class="translation">"I seek the forgiveness of Allah and turn to Him in repentance."</p>
+                                        </div>
+                                        <div class="tap-counter-circle" id="btn-tap-istighfar" aria-label="Counter tap target">
+                                            <span class="count-value" id="istighfar-total-count">0</span>
+                                            <span class="count-instruction">TAP</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group margin-top">
+                                    <label for="textarea-ahtisaab-journal">Daily Self-Reflection Journal</label>
+                                    <textarea id="textarea-ahtisaab-journal" rows="3" placeholder="Write down your self-assessment, remorse or strategies to improve tomorrow..."></textarea>
+                                </div>
+
+                                <div class="action-btn-row">
+                                    <button class="btn btn-primary btn-block btn-lg" id="btn-submit-ahtisaab">Submit Today's Ahtisaab</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Ahtisaab Trend Log (Last 7 Days)</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-subtitle">Keep tracking accountability to see your overall trend. Below are your daily self-reviews.</p>
+                                <div class="ahtisaab-history-feed" id="ahtisaab-history-feed-list">
+
+                                    <p class="text-center text-muted" id="placeholder-history-ahtisaab">Ahtisaab logs will accumulate here as you submit them daily.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <div class="modal-overlay" id="modal-add-routine">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Daily Routine Task</h3>
+                <button class="modal-close" id="btn-close-routine-modal" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="input-routine-task-name">Task Name</label>
+                    <input type="text" id="input-routine-task-name" placeholder="e.g. Read Surah Al-Mulk, Exercise, Morning walk" required>
+                </div>
+                <div class="form-group">
+                    <label for="select-routine-category">Category</label>
+                    <select id="select-routine-category">
+                        <option value="spiritual">Spiritual (روحانی)</option>
+                        <option value="academic">Academic & School (تعلیم)</option>
+                        <option value="health">Physical & Health (طبی)</option>
+                        <option value="other">General Routine (شروعات)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-routine-modal">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-routine-task">Add to Routine</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay alarm-overlay" id="modal-alarm-ringing">
+        <div class="modal alarm-modal text-center">
+            <div class="alarm-pulsing-rings">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+            </div>
+            <h2 class="alarm-title" id="ringing-alarm-name">Prayer Time Reminder</h2>
+            <p class="alarm-desc" id="ringing-alarm-message">It is time for Fajr. Please stand up for prayer!</p>
+            <div class="action-btn-row margin-top">
+                <button class="btn btn-primary btn-lg" id="btn-dismiss-alarm">Offered / Dismiss Alarm</button>
+                <button class="btn btn-secondary-danger" id="btn-snooze-alarm">Snooze (5 Mins)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay success-overlay" id="modal-reflection-success">
+        <div class="modal success-modal text-center">
+            <div class="glowing-success-icon">✓</div>
+            <h2 class="text-emerald">Ahtisaab Registered!</h2>
+            <p>Your self-accountability stats have been logged. May Allah grant you steadfastness (Istiqamah) to filter out bad habits and elevate your daily prayers!</p>
+            <blockquote class="hadith-snippet" id="success-hadith-snippet">
+                "The most beloved of deeds to Allah are those that are most consistent, even if they are small." (Bukhari)
+            </blockquote>
+            <button class="btn btn-primary margin-top" id="btn-close-success-modal">Alhamdulillah</button>
+        </div>
+    </div>
+
+<script>
+const INSPIRATION_DATABASE = [
+    {
+        quote: "Sufficient is your soul today as an accountant against you. (اپنا احتساب کرنے کے لیے آج تم خود ہی کافی ہو۔)",
+        source: "Surah Al-Isra 17:14"
+    },
+    {
+        quote: "Indeed, prayer prohibits immorality and wrongdoing. (بے شک نماز بے حیائی اور برائی سے روکتی ہے۔)",
+        source: "Surah Al-Ankabut 29:45"
+    },
+    {
+        quote: "The deeds most loved by Allah are those done regularly, even if they are small. (اللہ کے نزدیک سب سے پسندیدہ عمل وہ ہے جو مستقل کیا جائے، چاہے وہ تھوڑا ہی کیوں نہ ہو۔)",
+        source: "Prophet Muhammad (ﷺ) — Sahih al-Bukhari"
+    },
+    {
+        quote: "Take benefit of five before five: your youth before your old age, your health before your sickness, your wealth before your poverty, your free-time before your difficulty, and your life before your death.",
+        source: "Prophet Muhammad (ﷺ) — Al-Hakim"
+    },
+    {
+        quote: "And whoever fears Allah - He will make for him a way out and provide for him from where he does not expect. (اور جو اللہ سے ڈرتا ہے، اللہ اس کے لیے نکلنے کا راستہ بنا دیتا ہے اور اسے ایسی جگہ سے رزق دیتا ہے جہاں سے اسے گمان بھی نہیں ہوتا۔)",
+        source: "Surah At-Talaq 65:2-3"
+    },
+    {
+        quote: "By time, indeed, mankind is in loss, except those who have believed and done righteous deeds and advised each other to truth and advised each other to patience.",
+        source: "Surah Al-Asr 103:1-3"
+    },
+    {
+        quote: "My mercy encompasses all things. (اور میری رحمت ہر چیز پر محیط ہے۔)",
+        source: "Surah Al-A'raf 7:156"
+    },
+    {
+        quote: "Cleanliness is half of faith (Eman). (صفائی نصف ایمان ہے۔)",
+        source: "Prophet Muhammad (ﷺ) — Sahih Muslim"
+    },
+    {
+        quote: "Seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive [to Allah].",
+        source: "Surah Al-Baqarah 2:45"
+    },
+    {
+        quote: "Remember Me; I will remember you. (پس تم مجھے یاد کرو، میں تمہیں یاد کروں گا۔)",
+        source: "Surah Al-Baqarah 2:152"
+    }
+];
+
+let state = {
+    userName: "Learner",
+    morningSinFocus: "",
+    namazStatus: {
+        fajr: false,
+        dhuhr: false,
+        asr: false,
+        maghrib: false,
+        isha: false,
+        tahajjud: false
+    },
+    namazAlarmTimes: {
+        fajr: "04:30",
+        dhuhr: "13:15",
+        asr: "17:00",
+        maghrib: "19:25",
+        isha: "20:55",
+        tahajjud: "03:15"
+    },
+    namazAlarmSwitches: {
+        fajr: true,
+        dhuhr: true,
+        asr: true,
+        maghrib: true,
+        isha: true,
+        tahajjud: false
+    },
+    routineTasks: [
+        { id: 1, name: "Morning Dhikr & Supplications (صبح کے اذکار)", category: "spiritual", completed: false },
+        { id: 2, name: "Review Quran & Aya (تلاوتِ قرآن)", category: "spiritual", completed: false },
+        { id: 3, name: "Daily Study Review (مطالعہ)", category: "academic", completed: false },
+        { id: 4, name: "Light Stretch/Exercise (ورزش)", category: "health", completed: false }
+    ],
+    courses: [
+        { id: 301, name: "DIT", desc: "Diploma in Information Technology" },
+        { id: 302, name: "Islamic Studies", desc: "Spiritual and Academic courses" }
+    ],
+    subjects: [
+        { id: 101, courseId: 302, name: "Quranic Arabic", desc: "Translation & daily grammar", color: "#5cb87a" },
+        { id: 102, courseId: 301, name: "Web Development", desc: "JavaScript & CSS projects", color: "#5b8dee" },
+        { id: 103, courseId: 301, name: "Discrete Mathematics", desc: "Proofs, logic & graphs", color: "#e5a34b" }
+    ],
+    studyBlocks: [
+        { id: 201, courseId: 302, subjectId: 101, subjectName: "Quranic Arabic", subjectColor: "#5cb87a", day: "Monday", startTime: "09:30", endTime: "10:30", topic: "Translate Surah Al-Mulk", alarmEnabled: true, done: true },
+        { id: 202, courseId: 301, subjectId: 102, subjectName: "Web Development", subjectColor: "#5b8dee", day: "Tuesday", startTime: "14:00", endTime: "15:30", topic: "Build responsive layout grid", alarmEnabled: true, done: false }
+    ],
+    ahtisaabHistory: [
+        {
+            date: "Yesterday",
+            resolvedSin: "Doomscrolling / Wasting Time",
+            extraSins: ["Wasting time / Social Media"],
+            goodDeeds: ["Offered All Prayers On Time", "Read Morning & Evening Adhkar"],
+            istighfarCount: 70,
+            journal: "Faltered for around 30 mins after Asr, but recovered. Will try harder to keep device away tomorrow.",
+            status: "no"
+        },
+        {
+            date: "2 Days Ago",
+            resolvedSin: "Backbiting / Gheebat",
+            extraSins: [],
+            goodDeeds: ["Offered All Prayers On Time", "Recited Holy Quran", "Completed Study Blocks"],
+            istighfarCount: 100,
+            journal: "Kept a conscious check on my tongue today, Alhamdulillah. Felt very peaceful.",
+            status: "yes"
+        }
+    ],
+    istighfarToday: 0,
+    ahtisaabStatusToday: null
+};
+
+let activeAudioContext = null;
+let currentAlarmInterval = null;
+let currentActiveAlarmName = "";
+let currentActiveAlarmType = "";
+let currentActiveAlarmBlockId = null;
+
+let pomoTimerDuration = 1500;
+let pomoTimerRemaining = 1500;
+let pomoTimerInterval = null;
+let pomoTimerIsRunning = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadStateFromStorage();
+    initClockAndDates();
+    initTabNavigation();
+    initInspirationSlider();
+    initNamazModule();
+    initRoutineModule();
+    initStudyModule();
+    initPomodoroModule();
+    initAhtisaabModule();
+
+    setInterval(() => {
+        checkPrayerAlarms();
+        checkStudyAlarms();
+    }, 30000);
+
+    document.getElementById("btn-request-notifications").addEventListener("click", requestNotificationAccess);
+});
+
+function loadStateFromStorage() {
+    const cachedData = localStorage.getItem("productive_muslim_state");
+    if (cachedData) {
+        try {
+            const parsed = JSON.parse(cachedData);
+
+            state = { ...state, ...parsed };
+
+            state.namazStatus = { ...state.namazStatus, ...parsed.namazStatus };
+            state.namazAlarmTimes = { ...state.namazAlarmTimes, ...parsed.namazAlarmTimes };
+            state.namazAlarmSwitches = { ...state.namazAlarmSwitches, ...parsed.namazAlarmSwitches };
+
+            if (!state.courses) {
+                state.courses = [
+                    { id: 301, name: "DIT", desc: "Diploma in Information Technology" },
+                    { id: 302, name: "Islamic Studies", desc: "Spiritual and Academic courses" }
+                ];
+            }
+            if (state.subjects) {
+                state.subjects.forEach(subj => {
+                    if (!subj.courseId) {
+                        if (subj.id === 101) subj.courseId = 302;
+                        else if (subj.id === 102 || subj.id === 103) subj.courseId = 301;
+                        else subj.courseId = state.courses[0].id;
+                    }
+                });
+            }
+            if (state.studyBlocks) {
+                state.studyBlocks.forEach(block => {
+                    if (!block.day) block.day = "Monday";
+                    if (block.alarmEnabled === undefined) block.alarmEnabled = true;
+                    if (!block.courseId && block.subjectId) {
+                        const subj = state.subjects.find(s => s.id === block.subjectId);
+                        if (subj) block.courseId = subj.courseId;
+                    }
+                });
+            }
+        } catch (e) {
+            console.error("Error reading localStorage:", e);
+        }
+    } else {
+
+        saveStateToStorage();
+    }
+}
+
+function saveStateToStorage() {
+    localStorage.setItem("productive_muslim_state", JSON.stringify(state));
+}
+
+function playSpiritualChime(type) {
+    try {
+
+        if (!activeAudioContext) {
+            activeAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        if (activeAudioContext.state === 'suspended') {
+            activeAudioContext.resume();
+        }
+
+        const now = activeAudioContext.currentTime;
+
+        if (type === 'alarm') {
+
+            const notes = [329.63, 415.30, 493.88, 739.99];
+            notes.forEach((freq, index) => {
+                const osc = activeAudioContext.createOscillator();
+                const gainNode = activeAudioContext.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, now + (index * 0.15));
+
+                gainNode.gain.setValueAtTime(0, now);
+                gainNode.gain.linearRampToValueAtTime(0.12, now + (index * 0.15) + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 3);
+
+                osc.connect(gainNode);
+                gainNode.connect(activeAudioContext.destination);
+
+                osc.start(now);
+                osc.stop(now + 3);
+            });
+        } else if (type === 'success') {
+
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, index) => {
+                const osc = activeAudioContext.createOscillator();
+                const gainNode = activeAudioContext.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + (index * 0.08));
+
+                gainNode.gain.setValueAtTime(0, now);
+                gainNode.gain.linearRampToValueAtTime(0.15, now + (index * 0.08) + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+
+                osc.connect(gainNode);
+                gainNode.connect(activeAudioContext.destination);
+
+                osc.start(now);
+                osc.stop(now + 1.8);
+            });
+        } else if (type === 'tick') {
+
+            const osc = activeAudioContext.createOscillator();
+            const gainNode = activeAudioContext.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, now);
+
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(0.08, now + 0.02);
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+
+            osc.connect(gainNode);
+            gainNode.connect(activeAudioContext.destination);
+
+            osc.start(now);
+            osc.stop(now + 0.3);
+        }
+    } catch (e) {
+        console.error("Audio Synthesis error: ", e);
+    }
+}
+
+function requestNotificationAccess() {
+    if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                const banner = document.getElementById("notification-prompt-banner");
+                if (banner) banner.classList.add("hidden");
+
+                new Notification("Alarms Enabled", {
+                    body: "ProductiveMuslim will alert you during prayer & study timers.",
+                    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232ecc71'><path d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/></svg>"
+                });
+            }
+        });
+    }
+}
+
+function updateNotificationBannerState() {
+    const banner = document.getElementById("notification-prompt-banner");
+    if (!banner) return;
+
+    if (!("Notification" in window) || Notification.permission === "granted") {
+        banner.classList.add("hidden");
+    } else {
+        banner.classList.remove("hidden");
+    }
+}
+
+function triggerPrayerAlarm(name) {
+    if (currentAlarmInterval) return;
+
+    currentActiveAlarmName = name;
+    currentActiveAlarmType = "prayer";
+
+    const alarmModal = document.getElementById("modal-alarm-ringing");
+    const alarmTitle = document.getElementById("ringing-alarm-name");
+    const alarmDesc = document.getElementById("ringing-alarm-message");
+
+    alarmTitle.innerText = `${name.toUpperCase()} PRAYER TIME`;
+    alarmDesc.innerText = `It is time to offer your ${name} Salah. Please take a break and stand for prayer.`;
+
+    alarmModal.classList.add("active");
+
+    playSpiritualChime('alarm');
+    currentAlarmInterval = setInterval(() => {
+        playSpiritualChime('alarm');
+    }, 4500);
+
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(`Time for ${name}`, {
+            body: `Adhan timer triggered! Prepare for the ${name} prayer.`,
+            requireInteraction: true
+        });
+    }
+}
+
+function triggerStudyAlarm(block) {
+    if (currentAlarmInterval) return;
+
+    currentActiveAlarmName = block.subjectName;
+    currentActiveAlarmType = "study";
+    currentActiveAlarmBlockId = block.id;
+
+    const alarmModal = document.getElementById("modal-alarm-ringing");
+    const alarmTitle = document.getElementById("ringing-alarm-name");
+    const alarmDesc = document.getElementById("ringing-alarm-message");
+    const alarmDismissBtn = document.getElementById("btn-dismiss-alarm");
+
+    alarmTitle.innerText = `STUDY SLOT: ${block.subjectName.toUpperCase()}`;
+    const course = state.courses ? state.courses.find(c => c.id === block.courseId) : null;
+    const courseText = course ? ` in Course ${course.name}` : "";
+    alarmDesc.innerText = `It is time to start studying ${block.subjectName}${courseText}. Goal: "${block.topic}". Scheduled from ${fmt12h(block.startTime)} to ${fmt12h(block.endTime)}.`;
+
+    if (alarmDismissBtn) {
+        alarmDismissBtn.innerText = "Start Study / Dismiss";
+    }
+
+    alarmModal.classList.add("active");
+
+    playSpiritualChime('alarm');
+    currentAlarmInterval = setInterval(() => {
+        playSpiritualChime('alarm');
+    }, 4500);
+
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(`Study Time: ${block.subjectName}`, {
+            body: `Goal: ${block.topic}. Scheduled till ${fmt12h(block.endTime)}.`,
+            requireInteraction: true
+        });
+    }
+}
+
+function stopRingingAlarm(autoMarkOffered = false) {
+    if (currentAlarmInterval) {
+        clearInterval(currentAlarmInterval);
+        currentAlarmInterval = null;
+    }
+
+    const alarmModal = document.getElementById("modal-alarm-ringing");
+    if (alarmModal) {
+        alarmModal.classList.remove("active");
+    }
+
+    const alarmDismissBtn = document.getElementById("btn-dismiss-alarm");
+    if (alarmDismissBtn) {
+        alarmDismissBtn.innerText = "Offered / Dismiss Alarm";
+    }
+
+    if (autoMarkOffered && currentActiveAlarmName) {
+        if (currentActiveAlarmType === "study") {
+            const block = state.studyBlocks.find(b => b.id === currentActiveAlarmBlockId);
+            if (block) {
+                block.done = true;
+                saveStateToStorage();
+                renderScheduleBlocks();
+                updateDashboardProgressBars();
+
+                playSpiritualChime('success');
+
+                const navStudTabBtn = document.querySelector(".nav-btn[data-tab='schedule']");
+                if (navStudTabBtn) navStudTabBtn.click();
+            }
+        } else {
+
+            const lowercaseName = currentActiveAlarmName.toLowerCase();
+            state.namazStatus[lowercaseName] = true;
+            saveStateToStorage();
+            updateNamazUI();
+            updateDashboardProgressBars();
+
+            playSpiritualChime('success');
+        }
+    }
+
+    currentActiveAlarmName = "";
+    currentActiveAlarmType = "";
+    currentActiveAlarmBlockId = null;
+}
+
+function checkPrayerAlarms() {
+    const now = new Date();
+    const currentHrMin = now.toTimeString().substring(0, 5);
+
+    Object.keys(state.namazAlarmTimes).forEach(prayer => {
+        const isAlarmOn = state.namazAlarmSwitches[prayer];
+        const scheduledTime = state.namazAlarmTimes[prayer];
+
+        if (isAlarmOn && scheduledTime === currentHrMin) {
+
+            const lastChecked = localStorage.getItem(`alarm_last_triggered_${prayer}`);
+            const todayStr = now.toDateString();
+
+            if (lastChecked !== todayStr) {
+                localStorage.setItem(`alarm_last_triggered_${prayer}`, todayStr);
+                triggerPrayerAlarm(prayer);
+            }
+        }
+    });
+}
+
+function checkStudyAlarms() {
+    const now = new Date();
+    const currentHrMin = now.toTimeString().substring(0, 5);
+
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const currentDay = daysOfWeek[now.getDay()];
+
+    state.studyBlocks.forEach(block => {
+        const isAlarmOn = block.alarmEnabled;
+        const scheduledDay = block.day || "Monday";
+        const scheduledTime = block.startTime;
+
+        if (isAlarmOn && scheduledDay === currentDay && scheduledTime === currentHrMin && !block.done) {
+
+            const lastChecked = localStorage.getItem(`study_alarm_last_triggered_${block.id}`);
+            const todayStr = now.toDateString();
+
+            if (lastChecked !== todayStr) {
+                localStorage.setItem(`study_alarm_last_triggered_${block.id}`, todayStr);
+                triggerStudyAlarm(block);
+            }
+        }
+    });
+}
+
+function initClockAndDates() {
+    updateNotificationBannerState();
+
+    const clockEl = document.getElementById("digital-clock");
+    const gregDateEl = document.getElementById("gregorian-date-val");
+    const hijriDateEl = document.getElementById("hijri-date-val");
+
+    function renderTime() {
+        const now = new Date();
+
+        clockEl.innerText = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+
+        gregDateEl.innerText = now.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        try {
+            const formatter = new Intl.DateTimeFormat('en-U-ca-islamic-umalqura', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            hijriDateEl.innerText = formatter.format(now);
+        } catch (e) {
+            hijriDateEl.innerText = "Hijri Calendar unavailable";
+        }
+    }
+
+    renderTime();
+    setInterval(renderTime, 1000);
+}
+
+function initTabNavigation() {
+    const navButtons = document.querySelectorAll(".nav-btn");
+    const tabPanes = document.querySelectorAll(".tab-pane");
+
+    navButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetTab = btn.getAttribute("data-tab");
+
+            navButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            tabPanes.forEach(pane => {
+                pane.classList.remove("active");
+                if (pane.getAttribute("id") === `tab-${targetTab}`) {
+                    pane.classList.add("active");
+                }
+            });
+
+            if (!activeAudioContext) {
+                activeAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        });
+    });
+}
+
+function initInspirationSlider() {
+    const textEl = document.getElementById("inspiration-quote-text");
+    const sourceEl = document.getElementById("inspiration-quote-source");
+    const nextBtn = document.getElementById("btn-next-inspiration");
+
+    let currentIndex = Math.floor(Math.random() * INSPIRATION_DATABASE.length);
+
+    function displayQuote(index) {
+        const item = INSPIRATION_DATABASE[index];
+        textEl.style.opacity = '0';
+        sourceEl.style.opacity = '0';
+
+        setTimeout(() => {
+            textEl.innerText = `"${item.quote}"`;
+            sourceEl.innerText = item.source;
+            textEl.style.opacity = '1';
+            sourceEl.style.opacity = '1';
+        }, 150);
+    }
+
+    displayQuote(currentIndex);
+
+    nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % INSPIRATION_DATABASE.length;
+        displayQuote(currentIndex);
+    });
+}
+
+function initNamazModule() {
+    const alarmOverlay = document.getElementById("modal-alarm-ringing");
+    const btnDismiss = document.getElementById("btn-dismiss-alarm");
+    const btnSnooze = document.getElementById("btn-snooze-alarm");
+    const btnQuickChime = document.getElementById("btn-quick-play-chime");
+
+    const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'tahajjud'];
+
+    prayers.forEach(pr => {
+        const card = document.querySelector(`.prayer-card.${pr}`);
+        const checkBtn = document.getElementById(`check-btn-${pr}`);
+        const alarmTimeInput = document.getElementById(`time-${pr}`);
+        const alarmSw = document.getElementById(`alarm-switch-${pr}`);
+
+        if (state.namazAlarmTimes[pr]) {
+            alarmTimeInput.value = state.namazAlarmTimes[pr];
+        }
+        if (state.namazAlarmSwitches[pr] !== undefined) {
+            alarmSw.checked = state.namazAlarmSwitches[pr];
+        }
+
+        checkBtn.addEventListener("click", () => {
+            state.namazStatus[pr] = !state.namazStatus[pr];
+            saveStateToStorage();
+            updateNamazUI();
+            updateDashboardProgressBars();
+
+            if (state.namazStatus[pr]) {
+                playSpiritualChime('success');
+            }
+        });
+
+        alarmTimeInput.addEventListener("change", (e) => {
+            state.namazAlarmTimes[pr] = e.target.value;
+            saveStateToStorage();
+            updatePrayerCountdown();
+        });
+
+        alarmSw.addEventListener("change", (e) => {
+            state.namazAlarmSwitches[pr] = e.target.checked;
+            saveStateToStorage();
+        });
+    });
+
+    btnQuickChime.addEventListener("click", () => {
+        playSpiritualChime('alarm');
+    });
+
+    btnDismiss.addEventListener("click", () => {
+        stopRingingAlarm(true);
+    });
+
+    btnSnooze.addEventListener("click", () => {
+
+        const typeCopy = currentActiveAlarmType;
+        const nameCopy = currentActiveAlarmName;
+        const blockIdCopy = currentActiveAlarmBlockId;
+
+        stopRingingAlarm(false);
+
+        setTimeout(() => {
+            if (typeCopy === "study") {
+                const block = state.studyBlocks.find(b => b.id === blockIdCopy);
+                if (block) triggerStudyAlarm(block);
+            } else if (nameCopy) {
+                triggerPrayerAlarm(nameCopy);
+            }
+        }, 300000);
+    });
+
+    updateNamazUI();
+    setInterval(updatePrayerCountdown, 1000);
+}
+
+function updateNamazUI() {
+    const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'tahajjud'];
+    prayers.forEach(pr => {
+        const card = document.querySelector(`.prayer-card.${pr}`);
+        if (state.namazStatus[pr]) {
+            card.classList.add("completed");
+        } else {
+            card.classList.remove("completed");
+        }
+    });
+}
+
+function updatePrayerCountdown() {
+    const now = new Date();
+    const sortedPrayers = [];
+
+    const keys = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'tahajjud'];
+    keys.forEach(k => {
+        const timeParts = state.namazAlarmTimes[k].split(":");
+        const pDate = new Date(now);
+        pDate.setHours(parseInt(timeParts[0]), parseInt(timeParts[1]), 0, 0);
+
+        if (pDate < now) {
+            pDate.setDate(pDate.getDate() + 1);
+        }
+
+        sortedPrayers.push({
+            name: k.replace(/^\w/, c => c.toUpperCase()),
+            timeStr: state.namazAlarmTimes[k],
+            targetTime: pDate
+        });
+    });
+
+    sortedPrayers.sort((a, b) => a.targetTime - b.targetTime);
+
+    const nextPr = sortedPrayers[0];
+    const diffMs = nextPr.targetTime - now;
+
+    const totSec = Math.floor(diffMs / 1000);
+    const hrs = Math.floor(totSec / 3600);
+    const mins = Math.floor((totSec % 3600) / 60);
+    const secs = totSec % 60;
+
+    const timerStr = [
+        String(hrs).padStart(2, '0'),
+        String(mins).padStart(2, '0'),
+        String(secs).padStart(2, '0')
+    ].join(":");
+
+    document.getElementById("next-prayer-name").innerText = nextPr.name;
+    document.getElementById("next-prayer-timer").innerText = timerStr;
+
+    let hrVal = parseInt(nextPr.timeStr.split(":")[0]);
+    const minVal = nextPr.timeStr.split(":")[1];
+    const ampm = hrVal >= 12 ? 'PM' : 'AM';
+    hrVal = hrVal % 12 || 12;
+    document.getElementById("next-prayer-timing-label").innerText = `Starts at ${hrVal}:${minVal} ${ampm}`;
+}
+
+function initRoutineModule() {
+    const listContainer = document.getElementById("dashboard-routine-list");
+    const openAddBtn = document.getElementById("btn-add-routine-modal");
+    const closeOverlay = document.getElementById("btn-close-routine-modal");
+    const cancelModal = document.getElementById("btn-cancel-routine-modal");
+    const saveTaskBtn = document.getElementById("btn-save-routine-task");
+    const modalOverlay = document.getElementById("modal-add-routine");
+
+    function renderTasks() {
+        listContainer.innerHTML = "";
+
+        state.routineTasks.forEach(task => {
+            const li = document.createElement("li");
+            li.className = `checklist-item ${task.completed ? 'finished' : ''}`;
+
+            li.innerHTML = `
+                <input type="checkbox" id="task-chk-${task.id}" ${task.completed ? 'checked' : ''} aria-label="Mark task done">
+                <label for="task-chk-${task.id}">${task.name} <span class="text-muted" style="font-size:0.75rem;">(${task.category})</span></label>
+                <button class="btn btn-secondary-danger btn-sm delete-btn" data-id="${task.id}" style="padding: 2px 8px; font-size:10px; margin-left:auto;">✕</button>
+            `;
+
+            const chk = li.querySelector(`input[type="checkbox"]`);
+            chk.addEventListener("change", () => {
+                task.completed = chk.checked;
+                if (chk.checked) {
+                    li.classList.add("finished");
+                    playSpiritualChime('success');
+                } else {
+                    li.classList.remove("finished");
+                }
+                saveStateToStorage();
+                updateDashboardProgressBars();
+            });
+
+            li.querySelector(".delete-btn").addEventListener("click", (e) => {
+                e.stopPropagation();
+                state.routineTasks = state.routineTasks.filter(t => t.id !== task.id);
+                saveStateToStorage();
+                renderTasks();
+                updateDashboardProgressBars();
+            });
+
+            listContainer.appendChild(li);
+        });
+    }
+
+    openAddBtn.addEventListener("click", () => modalOverlay.classList.add("active"));
+    closeOverlay.addEventListener("click", () => modalOverlay.classList.remove("active"));
+    cancelModal.addEventListener("click", () => modalOverlay.classList.remove("active"));
+
+    saveTaskBtn.addEventListener("click", () => {
+        const nameVal = document.getElementById("input-routine-task-name").value.trim();
+        const catVal = document.getElementById("select-routine-category").value;
+
+        if (nameVal) {
+            const newTask = {
+                id: Date.now(),
+                name: nameVal,
+                category: catVal,
+                completed: false
+            };
+            state.routineTasks.push(newTask);
+            saveStateToStorage();
+            renderTasks();
+            updateDashboardProgressBars();
+
+            document.getElementById("input-routine-task-name").value = "";
+            modalOverlay.classList.remove("active");
+        }
+    });
+
+    renderTasks();
+}
+
+let selectedScheduleSubjectId = null;
+let selectedStudyBlockDay = "Monday";
+let currentDisplayDayFilter = "All";
+
+function initStudyModule() {
+
+    if (!state.courses) {
+        state.courses = [
+            { id: 301, name: "DIT", desc: "Diploma in Information Technology" },
+            { id: 302, name: "Islamic Studies", desc: "Spiritual and Academic courses" }
+        ];
+        saveStateToStorage();
+    }
+
+    const swatches = document.querySelectorAll('#subject-color-swatches .color-swatch');
+    let pickedColor = '#5b8dee';
+
+    swatches.forEach(sw => {
+        sw.addEventListener('click', () => {
+            swatches.forEach(s => s.classList.remove('picked'));
+            sw.classList.add('picked');
+            pickedColor = sw.getAttribute('data-color');
+        });
+    });
+
+    const btnAddCourse = document.getElementById('btn-add-new-course');
+    if (btnAddCourse) {
+        btnAddCourse.addEventListener('click', () => {
+            const courseNameInput = document.getElementById('input-new-course-name');
+            const courseDescInput = document.getElementById('input-new-course-desc');
+            const name = courseNameInput.value.trim();
+            const desc = courseDescInput.value.trim();
+
+            if (!name) {
+                courseNameInput.focus();
+                courseNameInput.style.borderColor = 'var(--red-danger)';
+                setTimeout(() => courseNameInput.style.borderColor = '', 1200);
+                return;
+            }
+
+            const newCourse = {
+                id: Date.now(),
+                name: name,
+                desc: desc
+            };
+
+            state.courses.push(newCourse);
+            saveStateToStorage();
+            renderCourseLibrary();
+            renderCourseSelectDropdown();
+
+            courseNameInput.value = '';
+            courseDescInput.value = '';
+            playSpiritualChime('success');
+        });
+    }
+
+    const btnAddSubject = document.getElementById('btn-add-new-subject');
+    btnAddSubject.addEventListener('click', () => {
+        const nameEl = document.getElementById('input-new-subject-name');
+        const descEl = document.getElementById('input-new-subject-desc');
+        const courseSelect = document.getElementById('select-subject-course');
+
+        const name = nameEl.value.trim();
+        const desc = descEl.value.trim();
+        const courseId = parseInt(courseSelect.value);
+
+        if (!name) {
+            nameEl.focus();
+            nameEl.style.borderColor = 'var(--red-danger)';
+            setTimeout(() => nameEl.style.borderColor = '', 1200);
+            return;
+        }
+
+        if (!courseId) {
+            alert('Please select a school Course (e.g. DIT) to link this subject to.');
+            courseSelect.focus();
+            return;
+        }
+
+        const newSubject = {
+            id: Date.now(),
+            courseId: courseId,
+            name: name,
+            desc: desc,
+            color: pickedColor
+        };
+
+        state.subjects.push(newSubject);
+        saveStateToStorage();
+        renderSubjectLibrary();
+        renderSubjectPills();
+
+        nameEl.value = '';
+        descEl.value = '';
+        playSpiritualChime('success');
+    });
+
+    const dayBadges = document.querySelectorAll('#schedule-day-swatches .preset-badge');
+    dayBadges.forEach(badge => {
+        badge.addEventListener('click', () => {
+            dayBadges.forEach(b => b.classList.remove('selected'));
+            badge.classList.add('selected');
+            selectedStudyBlockDay = badge.getAttribute('data-day');
+        });
+    });
+
+    const filterTabs = document.querySelectorAll('#day-filter-tabs button');
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            filterTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentDisplayDayFilter = tab.getAttribute('data-filter');
+            renderScheduleBlocks();
+        });
+    });
+
+    document.getElementById('btn-clear-study-schedule').addEventListener('click', () => {
+        if (state.studyBlocks.length === 0) return;
+        if (confirm('Clear all schedule blocks? This will delete all study slots across all days.')) {
+            state.studyBlocks = [];
+            saveStateToStorage();
+            renderScheduleBlocks();
+            updateDashboardProgressBars();
+        }
+    });
+
+    document.getElementById('btn-add-schedule-block').addEventListener('click', () => {
+        if (!selectedScheduleSubjectId) {
+            alert('Please select a subject first (click a pill in step 1).');
+            return;
+        }
+        const subject = state.subjects.find(s => s.id === selectedScheduleSubjectId);
+        if (!subject) return;
+
+        const start = document.getElementById('sched-start').value;
+        const end = document.getElementById('sched-end').value;
+        const topic = document.getElementById('sched-topic').value.trim();
+        const alarmEnabled = document.getElementById('sched-alarm-active').checked;
+
+        if (!start || !end) {
+            alert('Please set both start and end times.');
+            return;
+        }
+
+        const block = {
+            id: Date.now(),
+            courseId: subject.courseId,
+            subjectId: subject.id,
+            subjectName: subject.name,
+            subjectColor: subject.color,
+            day: selectedStudyBlockDay,
+            startTime: start,
+            endTime: end,
+            alarmEnabled: alarmEnabled,
+            topic: topic || 'General study session',
+            done: false
+        };
+
+        state.studyBlocks.push(block);
+        saveStateToStorage();
+        renderScheduleBlocks();
+        updateDashboardProgressBars();
+
+        document.getElementById('sched-topic').value = '';
+        playSpiritualChime('success');
+    });
+
+    renderCourseLibrary();
+    renderCourseSelectDropdown();
+    renderSubjectLibrary();
+    renderSubjectPills();
+    renderScheduleBlocks();
+}
+
+function renderCourseLibrary() {
+    const list = document.getElementById('courses-library-list');
+    const emptyMsg = document.getElementById('empty-courses-msg');
+    const countLbl = document.getElementById('courses-count-label');
+    if (!list || !countLbl || !emptyMsg) return;
+
+    list.querySelectorAll('.subject-chip').forEach(el => el.remove());
+
+    const count = state.courses ? state.courses.length : 0;
+    countLbl.textContent = `${count} course${count !== 1 ? 's' : ''}`;
+
+    if (count === 0) {
+        emptyMsg.classList.remove('hidden');
+        return;
+    }
+    emptyMsg.classList.add('hidden');
+
+    state.courses.forEach(course => {
+        const chip = document.createElement('div');
+        chip.className = 'subject-chip';
+        chip.innerHTML = `
+            <div class="subject-color-dot" style="background:var(--gold)"></div>
+            <div style="flex-grow:1;min-width:0;">
+                <div class="subject-chip-name">${course.name}</div>
+                ${course.desc ? `<div class="subject-chip-desc">${course.desc}</div>` : ''}
+            </div>
+            <button class="subject-chip-del" data-id="${course.id}" title="Remove course">✕</button>
+        `;
+        chip.querySelector('.subject-chip-del').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`Deleting "${course.name}" will remove all subjects and schedule slots linked to it. Continue?`)) {
+                state.courses = state.courses.filter(c => c.id !== course.id);
+
+                state.subjects = state.subjects.filter(s => s.courseId !== course.id);
+                state.studyBlocks = state.studyBlocks.filter(b => b.courseId !== course.id);
+
+                if (selectedScheduleSubjectId) {
+                    const activeSubj = state.subjects.find(s => s.id === selectedScheduleSubjectId);
+                    if (!activeSubj) selectedScheduleSubjectId = null;
+                }
+
+                saveStateToStorage();
+                renderCourseLibrary();
+                renderCourseSelectDropdown();
+                renderSubjectLibrary();
+                renderSubjectPills();
+                renderScheduleBlocks();
+                updateDashboardProgressBars();
+            }
+        });
+        list.appendChild(chip);
+    });
+}
+
+function renderCourseSelectDropdown() {
+    const select = document.getElementById('select-subject-course');
+    if (!select) return;
+    select.innerHTML = '<option value="">-- Select Course --</option>';
+
+    if (state.courses) {
+        state.courses.forEach(course => {
+            const option = document.createElement('option');
+            option.value = course.id;
+            option.textContent = course.name;
+            select.appendChild(option);
+        });
+        if (state.courses.length > 0) {
+
+            select.value = state.courses[0].id;
+        }
+    }
+}
+
+function renderSubjectLibrary() {
+    const list = document.getElementById('subject-library-list');
+    const emptyMsg = document.getElementById('empty-subjects-msg');
+    const countLbl = document.getElementById('subject-count-label');
+    if (!list || !countLbl || !emptyMsg) return;
+
+    list.querySelectorAll('.subject-chip').forEach(el => el.remove());
+
+    const count = state.subjects.length;
+    countLbl.textContent = `${count} subject${count !== 1 ? 's' : ''}`;
+
+    if (count === 0) {
+        emptyMsg.classList.remove('hidden');
+        return;
+    }
+    emptyMsg.classList.add('hidden');
+
+    state.subjects.forEach(subj => {
+        const course = state.courses ? state.courses.find(c => c.id === subj.courseId) : null;
+        const courseLabel = course ? ` [${course.name}]` : '';
+
+        const chip = document.createElement('div');
+        chip.className = 'subject-chip';
+        chip.innerHTML = `
+            <div class="subject-color-dot" style="background:${subj.color}"></div>
+            <div style="flex-grow:1;min-width:0;">
+                <div class="subject-chip-name">${subj.name}<span style="color:var(--gold); font-size:0.75rem;">${courseLabel}</span></div>
+                ${subj.desc ? `<div class="subject-chip-desc">${subj.desc}</div>` : ''}
+            </div>
+            <button class="subject-chip-del" data-id="${subj.id}" title="Remove subject">✕</button>
+        `;
+        chip.querySelector('.subject-chip-del').addEventListener('click', () => {
+            state.subjects = state.subjects.filter(s => s.id !== subj.id);
+
+            state.studyBlocks = state.studyBlocks.filter(b => b.subjectId !== subj.id);
+            if (selectedScheduleSubjectId === subj.id) selectedScheduleSubjectId = null;
+            saveStateToStorage();
+            renderSubjectLibrary();
+            renderSubjectPills();
+            renderScheduleBlocks();
+            updateDashboardProgressBars();
+        });
+        list.appendChild(chip);
+    });
+}
+
+function renderSubjectPills() {
+    const grid = document.getElementById('subject-select-grid');
+    const emptyMsg = document.getElementById('empty-subject-pills-msg');
+    if (!grid || !emptyMsg) return;
+
+    grid.querySelectorAll('.subject-select-pill').forEach(el => el.remove());
+
+    if (state.subjects.length === 0) {
+        emptyMsg.classList.remove('hidden');
+        return;
+    }
+    emptyMsg.classList.add('hidden');
+
+    state.subjects.forEach(subj => {
+        const course = state.courses ? state.courses.find(c => c.id === subj.courseId) : null;
+        const label = course ? `${subj.name} (${course.name})` : subj.name;
+
+        const pill = document.createElement('button');
+        pill.className = 'subject-select-pill' + (selectedScheduleSubjectId === subj.id ? ' selected' : '');
+        pill.setAttribute('data-id', subj.id);
+        pill.innerHTML = `<span class="pill-dot" style="background:${subj.color}"></span>${label}`;
+        pill.addEventListener('click', () => {
+            selectedScheduleSubjectId = subj.id;
+            renderSubjectPills();
+        });
+        grid.appendChild(pill);
+    });
+}
+
+function renderScheduleBlocks() {
+    const container = document.getElementById('schedule-agenda-container');
+    const emptyMsg = document.getElementById('empty-schedule-msg');
+    if (!container || !emptyMsg) return;
+
+    container.querySelectorAll('.schedule-block-card').forEach(el => el.remove());
+
+    if (state.studyBlocks.length === 0) {
+        emptyMsg.classList.remove('hidden');
+        updateDashboardProgressBars();
+        return;
+    }
+    emptyMsg.classList.add('hidden');
+
+    let blocksToDraw = state.studyBlocks;
+    if (currentDisplayDayFilter !== "All") {
+        blocksToDraw = state.studyBlocks.filter(b => b.day === currentDisplayDayFilter);
+    }
+
+    if (blocksToDraw.length === 0) {
+        emptyMsg.classList.remove('hidden');
+        emptyMsg.textContent = `No scheduled blocks for ${currentDisplayDayFilter}.`;
+        updateDashboardProgressBars();
+        return;
+    }
+    emptyMsg.classList.add('hidden');
+    emptyMsg.textContent = "No blocks yet. Pick a course, subject, day/time, and add a study block.";
+
+    const sorted = [...blocksToDraw].sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+    sorted.forEach(block => {
+        const card = document.createElement('div');
+        card.className = 'schedule-block-card' + (block.done ? ' done' : '');
+        card.style.borderLeftColor = block.subjectColor;
+
+        const startFmt = fmt12h(block.startTime);
+        const endFmt = fmt12h(block.endTime);
+        const dayLabel = currentDisplayDayFilter === "All" ? ` (${block.day || 'Mon'})` : '';
+
+        const course = state.courses ? state.courses.find(c => c.id === block.courseId) : null;
+        const courseName = course ? ` [${course.name}]` : '';
+
+        const alarmColor = block.alarmEnabled ? 'var(--gold)' : 'var(--text-muted)';
+        const alarmIcon = block.alarmEnabled ? '🔔 Alarm On' : '🔕 Alarm Off';
+
+        card.innerHTML = `
+            <div class="schedule-block-time-badge">${startFmt} – ${endFmt}${dayLabel}</div>
+            <div class="schedule-block-info" style="margin-left: 8px;">
+                <div class="schedule-block-subject">
+                    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${block.subjectColor};margin-right:6px;"></span>
+                    ${block.subjectName}<span style="color:var(--gold); font-size:0.72rem;">${courseName}</span>
+                </div>
+                <div class="schedule-block-topic">${block.topic}</div>
+            </div>
+            <div class="schedule-block-actions">
+                <button class="sba-btn alarm-toggle-btn" title="Toggle Alarm" style="color: ${alarmColor}; border-color: ${block.alarmEnabled ? 'rgba(212, 175, 55, 0.3)' : 'var(--border-glass)'};">
+                    ${alarmIcon}
+                </button>
+                <button class="sba-btn done-btn" title="${block.done ? 'Undo' : 'Mark done'}">${block.done ? '↩ Study' : '✓ Done'}</button>
+                <button class="sba-btn del-btn" title="Delete">✕</button>
+            </div>
+        `;
+
+        card.querySelector('.alarm-toggle-btn').addEventListener('click', () => {
+            block.alarmEnabled = !block.alarmEnabled;
+            saveStateToStorage();
+            renderScheduleBlocks();
+        });
+
+        card.querySelector('.done-btn').addEventListener('click', () => {
+            block.done = !block.done;
+            saveStateToStorage();
+            renderScheduleBlocks();
+            updateDashboardProgressBars();
+            if (block.done) playSpiritualChime('success');
+        });
+
+        card.querySelector('.del-btn').addEventListener('click', () => {
+            state.studyBlocks = state.studyBlocks.filter(b => b.id !== block.id);
+            saveStateToStorage();
+            renderScheduleBlocks();
+            updateDashboardProgressBars();
+        });
+
+        container.appendChild(card);
+    });
+
+    updateDashboardProgressBars();
+}
+
+function fmt12h(timeStr) {
+    if (!timeStr) return '';
+    let h = parseInt(timeStr.split(':')[0]);
+    const m = timeStr.split(':')[1];
+    const ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return `${h}:${m} ${ap}`;
+}
+
+function initPomodoroModule() {
+    const display = document.getElementById("pomodoro-display");
+    const progressRing = document.getElementById("pomodoro-progress-bar");
+    const btnStart = document.getElementById("btn-pomo-start");
+    const btnPause = document.getElementById("btn-pomo-pause");
+    const btnReset = document.getElementById("btn-pomo-reset");
+    const modes = document.querySelectorAll(".timer-mode-selection button");
+
+    const ringCircumference = 502;
+
+    function updatePomoTimerDisplay() {
+        const mins = Math.floor(pomoTimerRemaining / 60);
+        const secs = pomoTimerRemaining % 60;
+        display.innerText = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+
+        const progressFrac = pomoTimerRemaining / pomoTimerDuration;
+        const offset = ringCircumference - (progressFrac * ringCircumference);
+        progressRing.style.strokeDashoffset = offset;
+    }
+
+    function startPomoTimer() {
+        if (pomoTimerIsRunning) return;
+        pomoTimerIsRunning = true;
+        btnStart.classList.add("hidden");
+
+        pomoTimerInterval = setInterval(() => {
+            if (pomoTimerRemaining > 0) {
+                pomoTimerRemaining--;
+                updatePomoTimerDisplay();
+            } else {
+                clearInterval(pomoTimerInterval);
+                pomoTimerIsRunning = false;
+                btnStart.classList.remove("hidden");
+
+                playSpiritualChime('success');
+
+                setTimeout(() => {
+                    alert("Focus session completed successfully! Keep striving.");
+                }, 500);
+
+                const studyScore = document.getElementById("text-study-score");
+                studyScore.innerText = "100%";
+            }
+        }, 1000);
+    }
+
+    function pausePomoTimer() {
+        clearInterval(pomoTimerInterval);
+        pomoTimerIsRunning = false;
+        btnStart.classList.remove("hidden");
+    }
+
+    function resetPomoTimer() {
+        clearInterval(pomoTimerInterval);
+        pomoTimerIsRunning = false;
+        btnStart.classList.remove("hidden");
+        pomoTimerRemaining = pomoTimerDuration;
+        updatePomoTimerDisplay();
+    }
+
+    modes.forEach(modeBtn => {
+        modeBtn.addEventListener("click", () => {
+
+            modes.forEach(m => m.classList.remove("active"));
+            modeBtn.classList.add("active");
+
+            const durationMins = parseInt(modeBtn.getAttribute("data-duration"));
+            pomoTimerDuration = durationMins * 60;
+            pomoTimerRemaining = pomoTimerDuration;
+
+            if (durationMins === 25) {
+                progressRing.style.stroke = "var(--gold)";
+            } else {
+                progressRing.style.stroke = "var(--emerald)";
+            }
+
+            resetPomoTimer();
+        });
+    });
+
+    btnStart.addEventListener("click", startPomoTimer);
+    btnPause.addEventListener("click", pausePomoTimer);
+    btnReset.addEventListener("click", resetPomoTimer);
+
+    updatePomoTimerDisplay();
+}
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+}
+
+function initAhtisaabModule() {
+    const dash = {
+        input: document.getElementById("input-custom-sin-focus"),
+        saveBtn: document.getElementById("btn-save-morning-focus"),
+        resetBtn: document.getElementById("btn-reset-resolution"),
+        entryArea: document.getElementById("morning-focus-entry-area"),
+        activeArea: document.getElementById("morning-focus-active-area"),
+        badges: document.querySelectorAll("#sin-presets .preset-badge"),
+        activeLabel: document.getElementById("active-sin-name")
+    };
+    const portal = {
+        input: document.getElementById("input-ahtisaab-custom-sin-focus"),
+        saveBtn: document.getElementById("btn-save-ahtisaab-morning-focus"),
+        resetBtn: document.getElementById("btn-reset-ahtisaab-resolution"),
+        entryArea: document.getElementById("ahtisaab-morning-entry-area"),
+        activeArea: document.getElementById("ahtisaab-morning-active-area"),
+        badges: document.querySelectorAll("#ahtisaab-sin-presets .preset-badge"),
+        activeLabel: document.getElementById("ahtisaab-active-sin-name")
+    };
+    const ahtisaabPledgeLabel = document.getElementById("ahtisaab-pledge-sin-name");
+
+    function renderMorningResolutionCard() {
+        const focus = state.morningSinFocus;
+        [dash, portal].forEach(view => {
+            if (focus) {
+                view.activeLabel.innerText = focus;
+                view.entryArea.classList.add("hidden");
+                view.activeArea.classList.remove("hidden");
+            } else {
+                view.entryArea.classList.remove("hidden");
+                view.activeArea.classList.add("hidden");
+                view.input.value = "";
+                view.badges.forEach(b => b.classList.remove("selected"));
+            }
+        });
+        ahtisaabPledgeLabel.innerText = focus
+            ? `Avoid: ${focus}`
+            : "No resolution set today. Set one above!";
+    }
+
+    [dash, portal].forEach(view => {
+        view.badges.forEach(badge => {
+            badge.addEventListener("click", () => {
+                view.badges.forEach(b => b.classList.remove("selected"));
+                badge.classList.add("selected");
+                view.input.value = badge.getAttribute("data-sin");
+            });
+        });
+
+        view.saveBtn.addEventListener("click", () => {
+            const inputVal = view.input.value.trim();
+            if (inputVal) {
+                state.morningSinFocus = inputVal;
+                saveStateToStorage();
+                renderMorningResolutionCard();
+                playSpiritualChime('success');
+            }
+        });
+
+        view.resetBtn.addEventListener("click", () => {
+            state.morningSinFocus = "";
+            saveStateToStorage();
+            renderMorningResolutionCard();
+        });
+
+        view.input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") view.saveBtn.click();
+        });
+    });
+
+    const btnYes = document.getElementById("btn-ahtisaab-avoided-yes");
+    const btnNo = document.getElementById("btn-ahtisaab-avoided-no");
+
+    if (state.ahtisaabStatusToday === "yes") btnYes.classList.add("active");
+    if (state.ahtisaabStatusToday === "no") btnNo.classList.add("active");
+
+    btnYes.addEventListener("click", () => {
+        state.ahtisaabStatusToday = "yes";
+        btnYes.classList.add("active");
+        btnNo.classList.remove("active");
+        saveStateToStorage();
+        playSpiritualChime('success');
+    });
+
+    btnNo.addEventListener("click", () => {
+        state.ahtisaabStatusToday = "no";
+        btnNo.classList.add("active");
+        btnYes.classList.remove("active");
+        saveStateToStorage();
+        playSpiritualChime('alarm');
+    });
+
+    const badDeedsContainer = document.getElementById("ahtisaab-bad-deeds-checkboxes");
+    const goodDeedsContainer = document.getElementById("ahtisaab-good-deeds-checkboxes");
+
+    function bindCustomDeed(inputId, buttonId, container, borderColor) {
+        const input = document.getElementById(inputId);
+        const button = document.getElementById(buttonId);
+
+        function appendDeed() {
+            const val = input.value.trim();
+            if (!val) return;
+            const safeId = "custom-ch-" + Date.now();
+            const label = document.createElement("label");
+            label.className = "sin-checkbox-container";
+            label.setAttribute("for", safeId);
+            if (borderColor) label.style.borderColor = borderColor;
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = safeId;
+            checkbox.value = val;
+            checkbox.checked = true;
+
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(" " + val));
+            container.appendChild(label);
+            input.value = "";
+            playSpiritualChime('tick');
+        }
+
+        button.addEventListener("click", appendDeed);
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") appendDeed();
+        });
+    }
+
+    bindCustomDeed("input-ahtisaab-custom-bad-deed", "btn-add-ahtisaab-custom-bad-deed", badDeedsContainer, "");
+    bindCustomDeed("input-ahtisaab-custom-good-deed", "btn-add-ahtisaab-custom-good-deed", goodDeedsContainer, "rgba(46, 204, 113, 0.15)");
+
+    const istighfarClicker = document.getElementById("btn-tap-istighfar");
+    const totalCountLabel = document.getElementById("istighfar-total-count");
+
+    totalCountLabel.innerText = state.istighfarToday;
+
+    istighfarClicker.addEventListener("click", () => {
+        state.istighfarToday++;
+        totalCountLabel.innerText = state.istighfarToday;
+        saveStateToStorage();
+        playSpiritualChime('tick');
+    });
+
+    const submitBtn = document.getElementById("btn-submit-ahtisaab");
+    const successModal = document.getElementById("modal-reflection-success");
+    const successModalClose = document.getElementById("btn-close-success-modal");
+
+    function collectChecked(container) {
+        return Array.from(container.querySelectorAll("input[type='checkbox']:checked")).map(ch => ch.value);
+    }
+
+    function resetDeedBoxes(container) {
+        container.querySelectorAll("input[type='checkbox']").forEach(ch => {
+            if (ch.id.startsWith("custom-ch-")) {
+                ch.closest("label").remove();
+            } else {
+                ch.checked = false;
+            }
+        });
+    }
+
+    submitBtn.addEventListener("click", () => {
+        if (!state.ahtisaabStatusToday) {
+            alert("Please evaluate your targeted Resolution focus (Click Yes/No) before submitting.");
+            return;
+        }
+
+        const reflectionText = document.getElementById("textarea-ahtisaab-journal").value.trim();
+
+        const logEntry = {
+            date: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
+            resolvedSin: state.morningSinFocus || "None",
+            status: state.ahtisaabStatusToday,
+            extraSins: collectChecked(badDeedsContainer),
+            goodDeeds: collectChecked(goodDeedsContainer),
+            istighfarCount: state.istighfarToday,
+            journal: reflectionText || "No notes logged.",
+            timestamp: Date.now()
+        };
+
+        state.ahtisaabHistory.unshift(logEntry);
+        if (state.ahtisaabHistory.length > 10) {
+            state.ahtisaabHistory.pop();
+        }
+
+        state.istighfarToday = 0;
+        state.ahtisaabStatusToday = null;
+        totalCountLabel.innerText = "0";
+        document.getElementById("textarea-ahtisaab-journal").value = "";
+        btnYes.classList.remove("active");
+        btnNo.classList.remove("active");
+        resetDeedBoxes(badDeedsContainer);
+        resetDeedBoxes(goodDeedsContainer);
+
+        saveStateToStorage();
+        renderHistoryFeed();
+        updateDashboardProgressBars();
+        playSpiritualChime('success');
+        successModal.classList.add("active");
+    });
+
+    successModalClose.addEventListener("click", () => {
+        successModal.classList.remove("active");
+    });
+
+    function renderHistoryFeed() {
+        const feedContainer = document.getElementById("ahtisaab-history-feed-list");
+        const placeholder = document.getElementById("placeholder-history-ahtisaab");
+
+        feedContainer.querySelectorAll(".history-feed-item").forEach(it => it.remove());
+
+        if (state.ahtisaabHistory.length === 0) {
+            placeholder.classList.remove("hidden");
+            return;
+        }
+
+        placeholder.classList.add("hidden");
+
+        state.ahtisaabHistory.forEach(log => {
+            const card = document.createElement("div");
+            card.className = "history-feed-item";
+
+            const isSuccess = log.status === 'yes';
+            const badgeClass = isSuccess ? 'avoided' : 'failed';
+            const badgeText = isSuccess ? 'Avoided target' : 'Faltered target';
+            const extraSins = log.extraSins || [];
+            const goodDeeds = log.goodDeeds || [];
+
+            card.innerHTML = `
+                <div class="history-item-header flex-space">
+                    <span class="history-date">${escapeHtml(log.date)}</span>
+                    <span class="history-status-badge ${badgeClass}">${badgeText}</span>
+                </div>
+                <div class="history-body-details">
+                    <p><strong>Goal Resolution:</strong> <span class="text-gold">${escapeHtml(log.resolvedSin)}</span></p>
+                    ${extraSins.length > 0 ? `<p><strong>Bad deeds to subtract:</strong> ${escapeHtml(extraSins.join(", "))}</p>` : ''}
+                    ${goodDeeds.length > 0 ? `<p><strong>Good deeds done:</strong> ${escapeHtml(goodDeeds.join(", "))}</p>` : ''}
+                    <p style="margin-top:6px;"><strong>Istighfar Recited:</strong> ${log.istighfarCount} times</p>
+                    <p style="font-style:italic; margin-top:8px; color:var(--text-muted);">"${escapeHtml(log.journal)}"</p>
+                </div>
+            `;
+
+            feedContainer.appendChild(card);
+        });
+    }
+
+    renderMorningResolutionCard();
+    renderHistoryFeed();
+}
+
+function updateDashboardProgressBars() {
+
+    const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    let countNamaz = 0;
+    prayers.forEach(pr => {
+        if (state.namazStatus[pr]) countNamaz++;
+    });
+
+    const scoreLabel = document.getElementById("text-namaz-score");
+    scoreLabel.innerText = `${countNamaz}/5`;
+
+    const namazRing = document.getElementById("ring-namaz-bar");
+    setCircleRingProgress(namazRing, countNamaz / 5);
+
+    const studyRing = document.getElementById("ring-study-bar");
+    const studyLabel = document.getElementById("text-study-score");
+
+    if (state.studyBlocks.length === 0) {
+        studyLabel.innerText = "0%";
+        setCircleRingProgress(studyRing, 0);
+    } else {
+        let completedStudy = 0;
+        state.studyBlocks.forEach(sb => {
+            if (sb.done || sb.completed) completedStudy++;
+        });
+        const pct = Math.round((completedStudy / state.studyBlocks.length) * 100);
+        studyLabel.innerText = `${pct}%`;
+        setCircleRingProgress(studyRing, completedStudy / state.studyBlocks.length);
+    }
+
+    const routineRing = document.getElementById("ring-routine-bar");
+    const routineLabel = document.getElementById("text-routine-score");
+
+    if (state.routineTasks.length === 0) {
+        routineLabel.innerText = "0%";
+        setCircleRingProgress(routineRing, 0);
+    } else {
+        let completedTasks = 0;
+        state.routineTasks.forEach(t => {
+            if (t.completed) completedTasks++;
+        });
+        const pct = Math.round((completedTasks / state.routineTasks.length) * 100);
+        routineLabel.innerText = `${pct}%`;
+        setCircleRingProgress(routineRing, completedTasks / state.routineTasks.length);
+    }
+}
+
+function setCircleRingProgress(circleEl, fraction) {
+    if (!circleEl) return;
+
+    const r = circleEl.r.baseVal.value;
+    const circumference = 2 * Math.PI * r;
+
+    const safeFraction = Math.max(0, Math.min(1, fraction));
+    const offset = circumference - (safeFraction * circumference);
+
+    circleEl.style.strokeDasharray = `${circumference} ${circumference}`;
+    circleEl.style.strokeDashoffset = offset;
+}
+
+setTimeout(() => {
+    updateDashboardProgressBars();
+}, 200);
+</script>
+</body>
+</html>
